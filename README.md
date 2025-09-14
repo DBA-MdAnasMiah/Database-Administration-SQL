@@ -4,12 +4,6 @@
   🛠️ SQL Database Administration 📊
 </h1>
 
-<h1 align="center">
-  🛠️ SQL Database Administration 📊
-  <img src="https://media.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.gif" alt="gear animation" width="50" style="vertical-align:middle;" />
-</h1>
-
-
 
 
 <p align="center">
