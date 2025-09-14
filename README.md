@@ -20,23 +20,15 @@ In this repo I will be discussiong everything that I know about **SQL Database A
 
 ## 📚 Table of Contents
 
-<details>
-<summary><strong>🔰 Getting Started</strong></summary>
-
-- What is Database Administration?
-- Responsibilities of a DBA
-- Overview of SQL vs NoSQL
-- Types of SQL Databases (MySQL, PostgreSQL, MS SQL Server, Oracle)
-
-</details>
 
 <details>
 <summary><strong>🗄️ Database Installation & Configuration</strong></summary>
 
-- Installing MySQL/PostgreSQL/MSSQL
-- Configuring Database Parameters
-- Understanding Data Directories
-- Managing Ports and Services
+- Pre-Installation Requirements
+- Installation Planning
+- Installing MSSQL in Production
+- Post-Installation Configuration
+
 
 </details>
 
