@@ -13,7 +13,7 @@
 
 ## 🚀 Overview
 
-In this repo I will be discussiong everything that I know about **SQL Database Administration**.
+In this repo I will be discussiong everything that I know about **SQL Database Administration**. Hopefully my repo helps you out.
 
 
 
