@@ -1,1 +1,2 @@
+High Availability/ Digestor Recovery
 
