@@ -27,9 +27,7 @@ In this repo I will be discussiong everything that I know about **SQL Database A
 
 - Backup Strategies  
 - Restore Operations  
-- Database Integrity Checks (DBCC)  
-- Filegroups & Partitioning  
-- Data Compression  
+ 
 
 </details>
 
