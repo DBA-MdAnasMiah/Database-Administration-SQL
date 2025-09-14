@@ -23,12 +23,9 @@ In this repo I will be discussiong everything that I know about **SQL Database A
 # 📌 SQL Server Core Topics Overview
 
 <details>
-<summary>🗄️ Database Management</summary>
+<summary>🗄️ Database Backup & Restore</summary>
 
-- Backup Strategies  
-- Restore Operations  
- 
-
+- Backup & Restore Strategies  
 </details>
 
 <details>
