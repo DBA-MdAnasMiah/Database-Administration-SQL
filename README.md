@@ -140,7 +140,7 @@
 
 ---
 
-Thank you for visiting this repository! 🙏 I hope you find the content valuable and that it helps you to understand of **SQL Database Administration**. 
+Thank you for visiting my repository! 🙏 I hope you find the content valuable and helps you to become A **SQL Database Administrator**. 
 
 Feel free to explore, contribute, and reach out with any questions. Happy learning and successful database administration! 🎯 Let's learn together and struggle together :)
 
