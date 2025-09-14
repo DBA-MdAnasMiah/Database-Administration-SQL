@@ -20,88 +20,120 @@ In this repo I will be discussiong everything that I know about **SQL Database A
 
 ## 📚 Table of Contents
 
+🗄️ Database Management
 
-<details>
-<summary><strong>🗄️ Database Installation & Configuration</strong></summary>
+Backup Strategies
 
-- Pre-Installation Requirements
-- Installation Planning
-- Installing MSSQL in Production
-- Post-Installation Configuration
+Restore Operations
 
+Database Integrity Checks (DBCC)
 
-</details>
+Filegroups & Partitioning
 
-<details>
-<summary><strong>🔒 User Management & Security</strong></summary>
+Data Compression
 
-- Creating Users and Roles
-- Granting and Revoking Permissions
-- Using Authentication Plugins
-- Security Best Practices
-- SQL Injection Prevention
+🔄 High Availability & Disaster Recovery (HADR)
 
-</details>
+Log Shipping
 
-<details>
-<summary><strong>🧱 Schema Design & Management</strong></summary>
+Database Mirroring
 
-- Database Normalization
-- Creating and Modifying Tables
-- Indexes and Constraints
-- Views, Stored Procedures, and Triggers
+Always On Availability Groups
 
-</details>
+Failover Clustering
 
-<details>
-<summary><strong>⚙️ Maintenance Tasks</strong></summary>
+Replication (Transactional, Merge, Snapshot)
 
-- Backups (Logical vs Physical)
-- Restoring Databases
-- Archiving Data
-- Data Integrity Checks
+🔒 Security & Access Control
 
-</details>
+Authentication Modes (Windows, SQL)
 
-<details>
-<summary><strong>📈 Performance Tuning</strong></summary>
+User, Roles & Permissions Management
 
-- Query Optimization Techniques
-- Using `EXPLAIN` or Query Plans
-- Index Optimization
-- Connection Pooling
-- Caching Strategies
+Transparent Data Encryption (TDE)
 
-</details>
+Row-Level Security
 
-<details>
-<summary><strong>🔄 Replication & Clustering</strong></summary>
+Dynamic Data Masking
 
-- Master-Slave Replication
-- Master-Master Replication
-- High Availability with Clustering
-- Failover Strategies
+Auditing and Compliance
 
-</details>
+⚙️ Maintenance & Automation
 
-<details>
-<summary><strong>🛡️ Monitoring & Troubleshooting</strong></summary>
+SQL Server Agent Jobs
 
-- Monitoring Tools (Prometheus, Grafana, etc.)
-- Checking Slow Queries
-- Disk Usage Monitoring
-- Logs and Error Diagnosis
+Maintenance Plans
 
-</details>
+Index Maintenance (Rebuild, Reorganize)
 
-<details>
-<summary><strong>📦 Migration & Upgrades</strong></summary>
+Statistics Updates
 
-- Migrating Between SQL Servers
-- Version Upgrades and Best Practices
-- Zero-Downtime Deployments
+Alerts and Notifications
 
-</details>
+📈 Performance Tuning & Monitoring
 
----
+Query Optimization
+
+Execution Plans Analysis
+
+Indexing Strategies
+
+Resource Governor
+
+Wait Statistics
+
+Extended Events & Profiler
+
+🔧 Configuration & Setup
+
+Instance & Database Configuration
+
+SQL Server Installation & Upgrades
+
+Service Accounts & Permissions
+
+SQL Server Configuration Manager
+
+Network Configuration & Ports
+
+💾 Data Tools & Development
+
+T-SQL Programming
+
+Stored Procedures, Functions, Triggers
+
+Views and Indexed Views
+
+SQLCLR Integration
+
+JSON and XML Support
+
+🛠 Replication & Data Distribution
+
+Snapshot Replication
+
+Transactional Replication
+
+Merge Replication
+
+Peer-to-Peer Replication
+
+🌐 Cloud & Hybrid
+
+Azure SQL Database & Managed Instance
+
+SQL Server on Azure VM
+
+Hybrid Backup Solutions
+
+Cloud Disaster Recovery Strategies
+
+📊 Reporting & Analytics
+
+SQL Server Reporting Services (SSRS)
+
+SQL Server Analysis Services (SSAS)
+
+Integration Services (SSIS)
+
 
