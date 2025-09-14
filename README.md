@@ -4,9 +4,7 @@
   🛠️ SQL Database Administration 📊
 </h1>
 
-<p align="center">
-  <img src="https://media.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.gif" width="200" />
-</p>
+
 
 <p align="center">
   <strong>Master the art of managing SQL databases – From setup to security, backups to performance tuning.</strong>
