@@ -109,6 +109,19 @@ In this repo I will be discussiong everything that I know about **SQL Database A
 
 </details>
 
+
+<details>
+<summary>🚀 Upgrade & Migration</summary>
+
+- In-Place Upgrade (On prem)
+- Side-by-Side (On prem)
+- On prem to Azure
+- On prem to AWS
+
+</details>
+
+
+
 <details>
 <summary>🌐 Cloud & Hybrid</summary>
 
