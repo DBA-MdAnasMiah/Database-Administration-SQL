@@ -18,7 +18,7 @@ In this repo I will be discussiong everything that I know about **SQL Database A
 
 ---
 
-## 📚 Table of Contents
+
 
 # 📌 SQL Server Core Topics Overview
 
