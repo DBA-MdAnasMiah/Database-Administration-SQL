@@ -38,7 +38,7 @@ In this repo I will be discussiong everything that I know about **SQL Database A
 - Database Mirroring  
 - Always On Availability Groups  
 - Failover Clustering  
-- Replication (Transactional, Merge, Snapshot)  
+- Replication (Peer to peer, Transactional, Merge, Snapshot)  
 
 </details>
 
