@@ -24,7 +24,7 @@ In this repo I will be discussiong everything that I know about **SQL Database A
 
 <details>
 <summary>🗄️ Database Management</summary>
-<br>
+
 - Backup Strategies  
 - Restore Operations  
  
