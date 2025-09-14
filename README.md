@@ -10,7 +10,6 @@
   <strong>Master SQL Server Database Administration & Engineering in one Go</strong>
 </p>
 
----
 
 ## 🚀 Overview
 
