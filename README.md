@@ -140,10 +140,8 @@
 
 ---
 
-Thank you for visiting this repository! 🙏 I hope you find the content valuable and that it helps you deepen your understanding of **SQL Database Administration**. Throughout this repo, you’ll explore a wide range of techniques, best practices, and step-by-step procedures designed to empower you in managing SQL Server environments confidently and efficiently. 
+Thank you for visiting this repository! 🙏 I hope you find the content valuable and that it helps you to understand of **SQL Database Administration**. 
 
-Whether you're troubleshooting, optimizing performance, or planning disaster recovery, this collection aims to be your go-to resource for mastering the essentials and beyond. 🚀
-
-Feel free to explore, contribute, and reach out with any questions. Happy learning and successful database administration! 🎯
+Feel free to explore, contribute, and reach out with any questions. Happy learning and successful database administration! 🎯 Let's learn together and struggle together :)
 
 
