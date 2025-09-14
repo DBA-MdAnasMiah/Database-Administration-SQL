@@ -4,6 +4,8 @@
   🛠️ SQL Database Administration 📊
 </h1>
 
+# <img src="https://github.githubassets.com/images/icons/emoji/unicode/1f6e0.png" width="32" /> SQL Database Administration <img src="https://media.giphy.com/media/xUOxf48rp4S4sYx8kw/giphy.gif" width="32" />
+
 
 
 <p align="center">
