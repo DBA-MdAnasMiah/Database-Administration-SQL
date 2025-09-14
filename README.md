@@ -7,7 +7,7 @@
 
 
 <p align="center">
-  <strong>Master the art of managing SQL databases – From setup to security, backups to performance tuning.</strong>
+  <strong>Master SQL Server Database Administration & Engineering in one Go</strong>
 </p>
 
 ---
