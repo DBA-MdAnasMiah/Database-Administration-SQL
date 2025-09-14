@@ -5,20 +5,6 @@
 </h1>
 
 
-
-<p align="center">
-  <strong>Master SQL Server Database Administration & Engineering in one Go</strong>
-</p>
-
-
-## 🚀 Overview
-
-In this repo I will be discussiong everything that I know about **SQL Database Administration**. Hopefully my repo helps you out.
-
-
-
-
-
 # 📌 SQL Server Core Topics Overview
 
 <details>
