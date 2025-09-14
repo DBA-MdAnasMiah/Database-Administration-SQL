@@ -16,7 +16,7 @@
 
 ## 🚀 Overview
 
-This repository contains everything you need to know about **SQL Database Administration**. Whether you're a beginner learning the ropes or a professional refining your skills, this guide is structured to give you a comprehensive understanding of all the essential topics.
+In this repo I will be discussiong everything that I know about **SQL Database Administration**.
 
 ---
 
@@ -115,26 +115,3 @@ This repository contains everything you need to know about **SQL Database Admini
 
 ---
 
-## 🧰 Tools & Utilities
-
-| Tool              | Purpose                          |
-|-------------------|----------------------------------|
-| `pgAdmin`         | GUI for PostgreSQL               |
-| `MySQL Workbench` | GUI for MySQL                    |
-| `DBeaver`         | Universal Database GUI           |
-| `SQL Server Mgmt Studio (SSMS)` | Microsoft SQL Server Admin |
-| `Percona Toolkit` | Advanced MySQL DBA Tools         |
-
----
-
-## 📝 Sample Scripts
-
-```sql
--- Create a new user
-CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
-
--- Grant privileges
-GRANT ALL PRIVILEGES ON mydb.* TO 'username'@'localhost';
-
--- Backup database
-mysqldump -u root -p mydb > backup.sql;
