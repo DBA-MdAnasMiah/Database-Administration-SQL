@@ -102,6 +102,19 @@
 
 </details>
 
+<details>
+<summary>💾 Storage Management</summary>
+
+- Data Files and Filegroups  
+- Managing TempDB  
+- Partitioning Tables and Indexes  
+- Data Compression Techniques  
+- Managing Disk Space and I/O  
+- Autogrowth and Shrink Operations  
+- Storage Best Practices  
+- Backup Storage and Retention Policies  
+
+</details>
 
 
 <details>
