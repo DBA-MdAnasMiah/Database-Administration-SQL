@@ -20,120 +20,113 @@ In this repo I will be discussiong everything that I know about **SQL Database A
 
 ## 📚 Table of Contents
 
-🗄️ Database Management
+# 📌 SQL Server Core Topics Overview
 
-Backup Strategies
+<details>
+<summary>🗄️ Database Management</summary>
 
-Restore Operations
+- Backup Strategies  
+- Restore Operations  
+- Database Integrity Checks (DBCC)  
+- Filegroups & Partitioning  
+- Data Compression  
 
-Database Integrity Checks (DBCC)
+</details>
 
-Filegroups & Partitioning
+<details>
+<summary>🔄 High Availability & Disaster Recovery (HADR)</summary>
 
-Data Compression
+- Log Shipping  
+- Database Mirroring  
+- Always On Availability Groups  
+- Failover Clustering  
+- Replication (Transactional, Merge, Snapshot)  
 
-🔄 High Availability & Disaster Recovery (HADR)
+</details>
 
-Log Shipping
+<details>
+<summary>🔒 Security & Access Control</summary>
 
-Database Mirroring
+- Authentication Modes (Windows, SQL)  
+- User, Roles & Permissions Management  
+- Transparent Data Encryption (TDE)  
+- Row-Level Security  
+- Dynamic Data Masking  
+- Auditing and Compliance  
 
-Always On Availability Groups
+</details>
 
-Failover Clustering
+<details>
+<summary>⚙️ Maintenance & Automation</summary>
 
-Replication (Transactional, Merge, Snapshot)
+- SQL Server Agent Jobs  
+- Maintenance Plans  
+- Index Maintenance (Rebuild, Reorganize)  
+- Statistics Updates  
+- Alerts and Notifications  
 
-🔒 Security & Access Control
+</details>
 
-Authentication Modes (Windows, SQL)
+<details>
+<summary>📈 Performance Tuning & Monitoring</summary>
 
-User, Roles & Permissions Management
+- Query Optimization  
+- Execution Plans Analysis  
+- Indexing Strategies  
+- Resource Governor  
+- Wait Statistics  
+- Extended Events & Profiler  
 
-Transparent Data Encryption (TDE)
+</details>
 
-Row-Level Security
+<details>
+<summary>🔧 Configuration & Setup</summary>
 
-Dynamic Data Masking
+- Instance & Database Configuration  
+- SQL Server Installation & Upgrades  
+- Service Accounts & Permissions  
+- SQL Server Configuration Manager  
+- Network Configuration & Ports  
 
-Auditing and Compliance
+</details>
 
-⚙️ Maintenance & Automation
+<details>
+<summary>💾 Data Tools & Development</summary>
 
-SQL Server Agent Jobs
+- T-SQL Programming  
+- Stored Procedures, Functions, Triggers  
+- Views and Indexed Views  
+- SQLCLR Integration  
+- JSON and XML Support  
 
-Maintenance Plans
+</details>
 
-Index Maintenance (Rebuild, Reorganize)
+<details>
+<summary>🛠 Replication & Data Distribution</summary>
 
-Statistics Updates
+- Snapshot Replication  
+- Transactional Replication  
+- Merge Replication  
+- Peer-to-Peer Replication  
 
-Alerts and Notifications
+</details>
 
-📈 Performance Tuning & Monitoring
+<details>
+<summary>🌐 Cloud & Hybrid</summary>
 
-Query Optimization
+- Azure SQL Database & Managed Instance  
+- SQL Server on Azure VM  
+- Hybrid Backup Solutions  
+- Cloud Disaster Recovery Strategies  
 
-Execution Plans Analysis
+</details>
 
-Indexing Strategies
+<details>
+<summary>📊 Reporting & Analytics</summary>
 
-Resource Governor
+- SQL Server Reporting Services (SSRS)  
+- SQL Server Analysis Services (SSAS)  
+- Integration Services (SSIS)  
 
-Wait Statistics
-
-Extended Events & Profiler
-
-🔧 Configuration & Setup
-
-Instance & Database Configuration
-
-SQL Server Installation & Upgrades
-
-Service Accounts & Permissions
-
-SQL Server Configuration Manager
-
-Network Configuration & Ports
-
-💾 Data Tools & Development
-
-T-SQL Programming
-
-Stored Procedures, Functions, Triggers
-
-Views and Indexed Views
-
-SQLCLR Integration
-
-JSON and XML Support
-
-🛠 Replication & Data Distribution
-
-Snapshot Replication
-
-Transactional Replication
-
-Merge Replication
-
-Peer-to-Peer Replication
-
-🌐 Cloud & Hybrid
-
-Azure SQL Database & Managed Instance
-
-SQL Server on Azure VM
-
-Hybrid Backup Solutions
-
-Cloud Disaster Recovery Strategies
-
-📊 Reporting & Analytics
-
-SQL Server Reporting Services (SSRS)
-
-SQL Server Analysis Services (SSAS)
-
-Integration Services (SSIS)
-
+</details>
 
