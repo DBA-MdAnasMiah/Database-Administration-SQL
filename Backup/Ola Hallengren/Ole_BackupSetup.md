@@ -29,7 +29,7 @@ Get **`MaintenanceSolution.sql`** from:
 - GitHub (Ola Hallengren’s repository), or  
 - The official website (https://ola.hallengren.com/sql-server-backup.html)
 
-> File name: `MaintenanceSolution.sql` (exact casing doesn’t matter)
+> File name: `MaintenanceSolution.sql`
 
 ---
 
