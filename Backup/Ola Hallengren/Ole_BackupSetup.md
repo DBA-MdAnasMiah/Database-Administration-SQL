@@ -47,7 +47,7 @@ DECLARE @BackupDirectory nvarchar(max) = N'\\ANAS_PC\\SQL-backup';
 Run the Script and go check if the jobs has been created
 
 
-### Step 4 — Execute the MaintenanceSolution.sql file
+### Step 4 — schedule the jobs
 Schedule each jobs accordingly
 
 
