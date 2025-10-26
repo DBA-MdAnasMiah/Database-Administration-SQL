@@ -48,5 +48,12 @@ Run the Script and go check if the jobs has been created
 
 
 
+## 📚 Credits
+
+This setup is powered by **Ola Hallengren’s SQL Server Maintenance Solution**.  
+Please refer to the official documentation for full parameter coverage and best practices.
+
+---
+
 
 
