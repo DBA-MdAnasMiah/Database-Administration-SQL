@@ -22,7 +22,7 @@
 
 ---
 
-## 🚀 3-Step Setup
+## 🚀 Steps Setup
 
 ### Step 1 — Download the script
 Get **`MaintenanceSolution.sql`** from:
