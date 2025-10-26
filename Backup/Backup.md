@@ -5,9 +5,9 @@
 
 
 
-# SQL Server Backup Scripts for `test-db`
+# SQL Server Backup Scripts`
 
-This repository contains SQL Server backup scripts for **full**, **transaction log**, and **differential** backups for the `test-db` database, along with explanations for each option used.
+This repository contains SQL Server backup scripts for **full**, **transaction log**, and **differential** backups for the `your-db` database, along with explanations for each option used.
 
 ---
 
@@ -16,8 +16,8 @@ This repository contains SQL Server backup scripts for **full**, **transaction l
 The full backup is the **main backup** required for restoring the database.  
 
 ```sql
-BACKUP DATABASE [test-db] 
-TO DISK = N'D:\SQL-backup\test--db-backup-10-25-2025.bak' 
+BACKUP DATABASE [your-db] 
+TO DISK = N'D:\SQL-backup\your-db-backup-10-25-2025.bak' 
 WITH NOFORMAT, NOINIT, NAME = N'test-db-Full Database Backup', SKIP, STATS = 10;
 GO
 ```
@@ -36,8 +36,8 @@ GO
 Transaction log backups are **incremental backups**. They record all changes since the last backup and require a **full backup first** for recovery.
 
 ```sql
-BACKUP LOG [test-db] 
-TO DISK = N'D:\SQL-backup\test-db-11-25-2025.trn'
+BACKUP LOG [your-db] 
+TO DISK = N'D:\SQL-backup\your-db-11-25-2025.trn'
 WITH NOFORMAT, NOINIT, NAME = N'test-db-Transaction Log Backup', SKIP, STATS = 10;
 GO
 ```
@@ -53,8 +53,8 @@ GO
 Differential backups capture **all changes since the last full backup**, allowing you to combine multiple transaction logs into a single backup.
 
 ```sql
-BACKUP DATABASE [test-db] 
-TO DISK = N'D:\SQL-backup\test-db-backup-10-25-2025.diff' 
+BACKUP DATABASE [your-db] 
+TO DISK = N'D:\SQL-backup\your-db-10-25-2025.diff' 
 WITH DIFFERENTIAL, NOFORMAT, NOINIT, NAME = N'test-db-Differential Backup', SKIP, STATS = 10;
 GO
 ```
