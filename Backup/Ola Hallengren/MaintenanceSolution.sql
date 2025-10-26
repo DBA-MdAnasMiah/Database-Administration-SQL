@@ -25,7 +25,7 @@ USE [master] -- Specify the database in which the objects will be created.
 SET NOCOUNT ON
 
 DECLARE @CreateJobs nvarchar(max)          = 'Y'         -- Specify whether jobs should be created.
-DECLARE @BackupDirectory nvarchar(max)     = ''          -- Specify the backup root directory. If no directory is specified, the default backup directory is used.
+DECLARE @BackupDirectory nvarchar(max)     = '\\ANAS_PC\SQL-backup'   -- Specify the backup root directory. If no directory is specified, the default backup directory is used. 
 DECLARE @BackupURL nvarchar(max)           = NULL        -- Specify the backup root URL.
 DECLARE @CleanupTime int                   = NULL        -- Time in hours, after which backup files are deleted. If no time is specified, then no backup files are deleted.
 DECLARE @OutputFileDirectory nvarchar(max) = NULL        -- Specify the output file directory. If no directory is specified, then the SQL Server error log directory is used.
