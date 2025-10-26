@@ -10,7 +10,8 @@
 <details>
 <summary>🗄️ Database Backup & Restore</summary>
 
-- Backup & Restore Strategies  
+- Backup
+- Restore 
 </details>
 
 <details>
