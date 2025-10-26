@@ -4,16 +4,6 @@
 </p>
 
 
-
-from pathlib import Path
-
-# Define Markdown content
-md_content = """# SQL Server Maintenance & Backups with **Ola Hallengren** (Quick Start)
-
-> A single, repeatable setup that installs proven maintenance jobs (Backups, Integrity Checks, and Index Optimize) in one go.
-
----
-
 ## ✨ What you get
 
 - ✅ Production-grade backup jobs (`FULL`, `DIFF`, `LOG`)
