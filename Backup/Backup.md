@@ -11,7 +11,7 @@
 
 ## Full Backup
 
-The full backup is the **main backup** required for restoring the database.  
+The full backup is the **main** / **primary** backup that required for restoring the database.  
 
 ```sql
 BACKUP DATABASE [your-db] 
