@@ -27,7 +27,7 @@
 ### Step 1 — Download the script
 Get **`MaintenanceSolution.sql`** from:
 - GitHub (Ola Hallengren’s repository), or  
-- The official website
+- The official website (https://ola.hallengren.com/sql-server-backup.html)
 
 > File name: `MaintenanceSolution.sql` (exact casing doesn’t matter)
 
@@ -44,4 +44,4 @@ DECLARE @BackupDirectory nvarchar(max) = N'\\\\ANAS_PC\\SQL-backup';
 
 
 
-https://ola.hallengren.com/sql-server-backup.html
+
