@@ -26,7 +26,7 @@
 
 ### Step 1 — Download the script
 Get **`MaintenanceSolution.sql`** from:
-- GitHub (Ola Hallengren’s repository), or  
+- GitHub (Ola Hallengren’s repository), or here in this git repo
 - The official website (https://ola.hallengren.com/sql-server-backup.html)
 
 > File name: `MaintenanceSolution.sql`
