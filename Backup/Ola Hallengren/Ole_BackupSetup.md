@@ -38,7 +38,7 @@ Open the script and set your backup directory (UNC recommended):
 
 ```sql
 -- Example: set a custom backup root directory
-DECLARE @BackupDirectory nvarchar(max) = N'\\\\ANAS_PC\\SQL-backup';
+DECLARE @BackupDirectory nvarchar(max) = N'\\ANAS_PC\\SQL-backup';
 -- If you leave @BackupDirectory NULL, SQL Server's default backup directory is used.
 
 ```
