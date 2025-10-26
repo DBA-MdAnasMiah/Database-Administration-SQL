@@ -64,7 +64,7 @@ Please go to his site(https://ola.hallengren.com/sql-server-backup.html).
 
 ## Resources
 
-- [How-to Implement Ola Hallengren's SQL Server Maintenance Solution](https://www.youtube.com/watch?v=iacDlUsc9UE)
+- [Video - How-to Implement Ola Hallengren's SQL Server Maintenance Solution](https://www.youtube.com/watch?v=iacDlUsc9UE)
 
 [![Watch on YouTube](https://img.shields.io/badge/Watch-YouTube-red.svg)](https://www.youtube.com/watch?v=iacDlUsc9UE)
 
