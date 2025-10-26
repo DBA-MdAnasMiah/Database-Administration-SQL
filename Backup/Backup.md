@@ -20,7 +20,7 @@ WITH NOFORMAT, NOINIT, NAME = N'test-db-Full Database Backup', SKIP, STATS = 10;
 GO
 ```
 
-### Options Explained:
+### Options:
 - **NOFORMAT**: Does not delete existing backups in the destination.  
 - **NOINIT**: Prevents overwriting old backups in the file.  
 - **NAME**: Metadata saved in SQL Server to identify this backup.  
@@ -31,12 +31,12 @@ GO
 
 ## Transaction Log Backup
 
-Transaction log backups are **incremental backups**. They record all changes since the last backup and require a **full backup first** for recovery.
+Transaction log backups are **incremental backups**. They store all changes and modification since the last backup and require a **full backup first** for recovery.
 
 ```sql
 BACKUP LOG [your-db] 
 TO DISK = N'D:\SQL-backup\your-db-11-25-2025.trn'
-WITH NOFORMAT, NOINIT, NAME = N'test-db-Transaction Log Backup', SKIP, STATS = 10;
+WITH NOFORMAT, NOINIT, NAME = N'your-db-Transaction Log Backup', SKIP, STATS = 10;
 GO
 ```
 
@@ -48,12 +48,12 @@ GO
 
 ## Differential Backup
 
-Differential backups capture **all changes since the last full backup**, allowing you to combine multiple transaction logs into a single backup.
+Differential backups capture **all changes since the last full backup**, allowing you to combine multiple transaction logs into a single backup file.
 
 ```sql
 BACKUP DATABASE [your-db] 
 TO DISK = N'D:\SQL-backup\your-db-10-25-2025.diff' 
-WITH DIFFERENTIAL, NOFORMAT, NOINIT, NAME = N'test-db-Differential Backup', SKIP, STATS = 10;
+WITH DIFFERENTIAL, NOFORMAT, NOINIT, NAME = N'your-db-Differential Backup', SKIP, STATS = 10;
 GO
 ```
 
@@ -65,8 +65,8 @@ GO
 
 ## Summary
 
-- **Full Backup**: Complete snapshot of the database.  
-- **Transaction Log Backup**: Incremental changes; must follow full backup.  
+- **Full Backup**: Complete backup of a database.  
+- **Transaction Log Backup**: Incremental changes; must follow full backup and captures the small chnages over time 
 - **Differential Backup**: All changes since last full backup; combines multiple logs.  
 
 💡 **Tip:** Make sure to test your backups and restores to ensure reliability.
