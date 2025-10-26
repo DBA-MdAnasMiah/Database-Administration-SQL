@@ -71,5 +71,5 @@ GO
 - **Transaction Log Backup**: Incremental changes; must follow full backup.  
 - **Differential Backup**: All changes since last full backup; combines multiple logs.  
 
-💡 **Tip:** Always test your backups and restores to ensure reliability.
+💡 **Tip:** Make sure test your backups and restores to ensure reliability.
 
