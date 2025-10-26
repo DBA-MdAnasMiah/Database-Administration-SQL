@@ -55,7 +55,7 @@ Schedule each jobs accordingly
 ## 📚 Credits
 
 This setup is powered by **Ola Hallengren’s SQL Server Maintenance Solution**.  
-Please go to his site.
+Please go to his site(https://ola.hallengren.com/sql-server-backup.html).
 
 ---
 
