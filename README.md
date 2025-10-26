@@ -33,7 +33,7 @@
 - Transparent Data Encryption (TDE)  
 - Row-Level Security  
 - Dynamic Data Masking  
-- [Auditing & Compliance](https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/tree/main/auditing-compliance)  
+- [Auditing & Compliance](https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/tree/main/Auditing-compliance)  
 
 </details>
 
