@@ -41,6 +41,11 @@ Open the script and set your backup directory (UNC recommended):
 DECLARE @BackupDirectory nvarchar(max) = N'\\\\ANAS_PC\\SQL-backup';
 -- If you leave @BackupDirectory NULL, SQL Server's default backup directory is used.
 
+```
+
+### Step 3 — Execute the MaintenanceSolution.sql file
+Run the Script and go check if the jobs has been created
+
 
 
 
