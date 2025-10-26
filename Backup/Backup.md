@@ -5,7 +5,7 @@
 
 
 
-# SQL Server Backup Scripts`
+# SQL Server Backup Scripts
 
 This repository contains SQL Server backup scripts for **full**, **transaction log**, and **differential** backups for the `your-db` database, along with explanations for each option used.
 
