@@ -71,7 +71,7 @@ Please go to his site(https://ola.hallengren.com/sql-server-backup.html).
 [![Video thumbnail](https://img.youtube.com/vi/iacDlUsc9UE/maxresdefault.jpg)](https://www.youtube.com/watch?v=iacDlUsc9UE)
 
 <details>
-  <summary>Direct URL</summary>
+  <summary>Video link</summary>
 
   https://www.youtube.com/watch?v=iacDlUsc9UE
 </details>
