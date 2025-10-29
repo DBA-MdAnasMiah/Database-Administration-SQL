@@ -60,6 +60,11 @@ Replication enables synchronizing all the data between the Databases to maintain
 - Publisher can have one or more publications.
 - Publisher is the primary server’s database instance.
 
+
+- Publisher → The main server (source) that has the original database.
+- Publication → A collection of selected database objects (like tables, views, procedures) that the Publisher shares with others.
+- Publisher sends (publishes) the Publication to other servers (Subscribers).
+
 ---
 
 ## What is a Subscriber?
