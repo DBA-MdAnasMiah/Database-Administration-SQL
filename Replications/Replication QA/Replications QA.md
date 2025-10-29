@@ -1,13 +1,11 @@
 
 
 <p align="center">
-  <img src="https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/blob/main/Replications/assets/replication_gif.gif?raw=true" alt="Replication Q/A" />
+  <img src="https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/blob/main/Replications/assets/replication_gif.gif?raw=true" 
+       alt="Replication Q/A" width="450" />
 </p>
 
-
 ---
-
-# SQL Server Replication
 
 ## What is SQL Server Replication?
 Replication is a process of copying and distributing data and database object from primary server to secondary server.  
