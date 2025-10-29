@@ -1,6 +1,8 @@
 
-      💡 Replication Questions and Answers 💡
 
+<p align="center">
+  <img src="assets/replication.gif" alt="Replication Q/A" />
+</p>
 
 ---
 
