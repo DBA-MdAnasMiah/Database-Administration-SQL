@@ -53,17 +53,10 @@ Replication enables synchronizing all the data between the Databases to maintain
 ---
 
 ## What is Publisher?
-- A publisher is the main server database (source database) copy on which publication is configured.
-- That distributes all the database tables, selected tables known as article to other servers known as subscriber.
-- Publisher database instance which is the main server’s database that allow or make available to replicate to secondary server’s database (subscriber).
-- Publisher database instance which the main server’s database that will be replicate to secondary server’s database.
-- Publisher can have one or more publications.
-- Publisher is the primary server’s database instance.
-
-
 - Publisher → The main server (source) that has the original database.
 - Publication → A collection of selected database objects (like tables, views, procedures) that the Publisher shares with others.
 - Publisher sends (publishes) the Publication to other servers (Subscribers).
+- The main server/database where the original data lives.
 
 ---
 
