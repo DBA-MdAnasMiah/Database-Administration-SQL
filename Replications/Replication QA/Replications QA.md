@@ -63,10 +63,8 @@ Replication enables synchronizing all the data between the Databases to maintain
 ---
 
 ## What is a Subscriber?
-- A subscriber is the on secondary server database (destination database) that receives the replicated data from a publication.
-- That also can be used for reporting purposes.
-- Subscriber is secondary server’s database replication of primary server’s database.
-- It’s not server level it’s database level.
+- subscriber → The destination server that the data will replicate to.
+- Secondary Server that receives and stores the copied data
 
 ---
 
