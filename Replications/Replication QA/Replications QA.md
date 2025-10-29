@@ -1,8 +1,9 @@
 
 
 <p align="center">
-  <img src="[assets/replication.gif](https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/blob/main/Replications/assets/replication_gif.gif)" alt="Replication Q/A" />
+  <img src="https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/blob/main/Replications/assets/replication_gif.gif?raw=true" alt="Replication Q/A" />
 </p>
+
 
 ---
 
