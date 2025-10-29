@@ -91,6 +91,10 @@ Replication enables synchronizing all the data between the Databases to maintain
 - Multiple articles are publication.
 - Publication collections of one or more database objects are called publication.
 
+  
+## What is Publication Database?
+- It’s the source database that going to replicate on subsriber.
+
 ---
 
 ## What is Subscription in Replication?
