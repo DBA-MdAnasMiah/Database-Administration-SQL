@@ -1,27 +1,6 @@
 
-<h1 align="center">
-  <a href="#" style="text-decoration:none;">
-    <span style="
-      background: linear-gradient(90deg, #00c6ff, #0072ff, #ff6a00, #ee0979);
-      background-size: 400% 400%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-      animation: gradientShift 5s ease infinite;
-      font-weight: bold;
-      font-size: 2.5em;">
       💡 Replication Questions and Answers 💡
-    </span>
-  </a>
-</h1>
 
-<style>
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-</style>
 
 ---
 
