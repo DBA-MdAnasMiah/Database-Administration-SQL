@@ -34,10 +34,9 @@ GO
 Transaction log backups are **incremental backups**. They store all changes and modification since the last backup and require a **full backup first** for recovery.
 
 ```sql
-BACKUP LOG [your-db] 
-TO DISK = N'D:\SQL-backup\your-db-11-25-2025.trn'
-WITH NOFORMAT, NOINIT, NAME = N'your-db-Transaction Log Backup', SKIP, STATS = 10;
-GO
+BACKUP LOG [anas] 
+TO DISK = N'D:\SQL-backup\your-db-11-25-2025.trn' with STATS = 10;
+
 ```
 
 **Notes:**
