@@ -55,6 +55,21 @@ BACKUP DATABASE [anas] TO  DISK = N'D:\SQL-backup\anas-diff-2025-10-25.bak'
 WITH  DIFFERENTIAL ,STATS = 10
 ```
 
+
+
+## Script out all database full backup
+
+This script out the output for all database excluding 4 system databases
+
+```sql
+
+select 'backup database [' +name+'] to disk = ''D:\SQL-backup\' + name +'.bak'' with stats = 15, compression;'
+from sys.databases where database_id > 4
+
+```
+
+
+
 **Notes:**
 - Requires a full backup to restore.  
 - Useful for reducing restore time compared to restoring multiple transaction log backups.
