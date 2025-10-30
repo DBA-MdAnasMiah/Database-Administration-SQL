@@ -54,7 +54,11 @@ Differential backups capture **all changes since the last full backup**, allowin
 BACKUP DATABASE [anas] TO  DISK = N'D:\SQL-backup\anas-diff-2025-10-25.bak' 
 WITH  DIFFERENTIAL ,STATS = 10
 ```
+**Notes:**
+- Requires a full backup to restore.  
+- Useful for reducing restore time compared to restoring multiple transaction log backups.
 
+---
 
 
 ## Script out all database full backup
@@ -70,11 +74,7 @@ from sys.databases where database_id > 4
 
 
 
-**Notes:**
-- Requires a full backup to restore.  
-- Useful for reducing restore time compared to restoring multiple transaction log backups.
 
----
 
 ## Summary
 
