@@ -63,7 +63,7 @@ WITH  DIFFERENTIAL ,STATS = 10
 
 ## Script out all database full backup
 
-This script out the output for all database excluding 4 system databases
+This script out the output for all database backup excluding 4 system databases
 
 ```sql
 
