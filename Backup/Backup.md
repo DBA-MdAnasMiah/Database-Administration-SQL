@@ -51,10 +51,9 @@ GO
 Differential backups capture **all changes since the last full backup**, allowing you to combine multiple transaction logs into a single backup file.
 
 ```sql
-BACKUP DATABASE [your-db] 
-TO DISK = N'D:\SQL-backup\your-db-10-25-2025.diff' 
-WITH DIFFERENTIAL, NOFORMAT, NOINIT, NAME = N'your-db-Differential Backup', SKIP, STATS = 10;
-GO
+
+BACKUP DATABASE [anas] TO  DISK = N'D:\SQL-backup\anas-diff-2025-10-25.bak' 
+WITH  DIFFERENTIAL ,STATS = 10
 ```
 
 **Notes:**
