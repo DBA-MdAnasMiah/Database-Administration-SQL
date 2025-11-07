@@ -85,6 +85,7 @@ from sys.databases where database_id > 4
 💡 **Tip:** Make sure to test your backups and restores to ensure reliability.
 
 ## Google Drive
+[Google Drive Folder – Backup](https://drive.google.com/drive/folders/18I6FLsqDaitLfiE7RH8DMmip_0WM0tSi)
 
 
 
