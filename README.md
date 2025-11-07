@@ -137,10 +137,12 @@
 
 </details>
 
-<details>
-<summary>🌐 google Drive </summary>
-  
-</details>
+
+
+# Google Drive Notes
+
+
+
 ---
 
 Thank you for visiting my repository! 🙏 I hope you find the content valuable and helps you to become A **SQL Database Administrator**. 
