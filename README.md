@@ -140,11 +140,8 @@
 
 
 ## Google Drive Notes
-
-<details>
 [Google Drive Folder – SQL-DBA](https://drive.google.com/drive/folders/1EnKcXpbx5Gs7mPDZTxU61GWsTLim_jkY)
 
-</details>
 
 ---
 
