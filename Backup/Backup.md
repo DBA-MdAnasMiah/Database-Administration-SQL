@@ -16,7 +16,7 @@ The full backup is the **main** / **primary** backup that required for restoring
 ```sql
 BACKUP DATABASE [your-db] 
 TO DISK = N'D:\SQL-backup\your-db-backup-10-25-2025.bak' 
-WITH NOFORMAT, NOINIT, NAME = N'test-db-Full Database Backup', SKIP, STATS = 10;
+WITH NOFORMAT, NOINIT, NAME = N'test-db-Full Database Backup', SKIP, STATS = 10, compression;
 GO
 ```
 
@@ -35,7 +35,7 @@ Transaction log backups are **incremental backups**. They store all changes and 
 
 ```sql
 BACKUP LOG [anas] 
-TO DISK = N'D:\SQL-backup\your-db-11-25-2025.trn' with STATS = 10;
+TO DISK = N'D:\SQL-backup\your-db-11-25-2025.trn' with STATS = 10, compression;
 
 ```
 
@@ -52,7 +52,7 @@ Differential backups capture **all changes since the last full backup**, allowin
 ```sql
 
 BACKUP DATABASE [anas] TO  DISK = N'D:\SQL-backup\anas-diff-2025-10-25.bak' 
-WITH  DIFFERENTIAL ,STATS = 10
+WITH  DIFFERENTIAL ,STATS = 10, compression;
 ```
 **Notes:**
 - Requires a full backup to restore.  
