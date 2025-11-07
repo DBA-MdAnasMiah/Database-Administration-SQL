@@ -17,7 +17,6 @@ The full backup is the **main** / **primary** backup that required for restoring
 BACKUP DATABASE [your-db] 
 TO DISK = N'D:\SQL-backup\your-db-backup-10-25-2025.bak' 
 WITH NOFORMAT, NOINIT, NAME = N'test-db-Full Database Backup', SKIP, STATS = 10, compression;
-GO
 ```
 
 ### Options:
