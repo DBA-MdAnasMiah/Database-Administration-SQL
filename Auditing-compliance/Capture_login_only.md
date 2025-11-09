@@ -32,10 +32,10 @@ GO
 ```
 
 > **Note:**   <br>
-> `In order for us to create auditing in SQL, we must create the audit and step 1 does the work` <br>
-> `step 2 will generate the audit specs which mean what we want to capture, in our case we will be capturng the SQL login, basically who logged in and out to server.` <br>
-> `In step 3 we will be enabling the audit and specs in order for it to run it.`<br>
-> `step 4, we will query out the audit.`
+> In order for us to create auditing in SQL, we must create the audit and step 1 does the work <br>
+> step 2 will generate the audit specs which mean what we want to capture, in our case we will be capturng the SQL login, basically who logged in and out to server. <br>
+> In step 3 we will be enabling the audit and specs in order for it to run it.<br>
+> step 4, we will query out the audit.
 
 > **Extra Notes:** <br>
 > It starts with file #1 (1 GB). <br>
