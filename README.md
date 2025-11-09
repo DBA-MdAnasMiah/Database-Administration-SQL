@@ -29,7 +29,7 @@
 <summary>🔒 Security & Access Control </summary>
 
 - [SQL login](https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/blob/main/Security/Login.md)
-- User, Roles & Permissions Management  
+- Database User 
 - Transparent Data Encryption (TDE)  
 - Row-Level Security  
 - Dynamic Data Masking  
