@@ -68,8 +68,8 @@ STATS = 10;
 - **WITH NORECOVERY**: Keeps the database in restoring mode. Allows more backups (like differential or log) to be restored.Use this for all restores before the final one.
 - **WITH RECOVERY**:Brings the database online and ready to use. No more backups can be restored after this. Use this for the last restore step.
 
-`RECOVERY → Finish and bring online <br>
-NORECOVERY → Keep restoring`
+`RECOVERY → Finish and bring online` <br>
+`NORECOVERY → Keep restoring`
 
 First, restore the full backup and keep it in restoring mode - WITH NORECOVERY.
 Next, restore the differential backup if you have one - WITH NORECOVERY.
