@@ -22,6 +22,8 @@ GO
 
 ```
 
+**To create SQL Login graphically:**  
+`SQL Server Instance → Security → Login → New Login (right clicking Logins folder) → General -> Login name: AnasLogin, click on SQL Server Authentication and click on sysadmin on the Server Roles` <br>
 
 ### Options:
 - **CHECK_EXPIRATION=OFF**: this allow the login to be never expire.  
@@ -40,7 +42,7 @@ GO
 `SQL Server Instance → Properties → Security → Server Authentication → SQL Server and Windows Authentication mode` <br>
 `⚠️ this requires SQL server restart to change the authentication mode.`
 
-## Create Login with least privilage.
+## To Create Login with least privilage.
 
 The following scirpt will generate a login with no permission, this login wont be able to do anything in the database, unless we grant any other permission, like sysadmin or anything.
 
@@ -51,3 +53,7 @@ CREATE LOGIN YourLogin
 WITH PASSWORD = '123', CHECK_POLICY = OFF;
 
 ```
+
+## To drop a SQL Login
+
+
