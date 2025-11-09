@@ -38,7 +38,7 @@ GO
 
 **To change the Authentication Mode:**  
 `SQL Server Instance → Properties → Security → Server Authentication → SQL Server and Windows Authentication mode`
-⚠️ this requires SQL server restart to change the authentication mode.
+`⚠️ this requires SQL server restart to change the authentication mode.`
 
 ## Create Login with least privilage.
 
