@@ -20,7 +20,8 @@ TO FILE (
     FILEPATH = 'D:\Audit\',                -- Folder where audit files will be stored
     MAXSIZE = 1 GB,                        -- Each file is 1 GB and this is where we define it
     MAX_ROLLOVER_FILES = 3,                -- Keep only the latest 3 files (~3 GB total), so lets say if those 3 files fill up
-	                                                           --, the oldest audit file will be erase and resatrt to add the new audit, so it goes to 2nd , 3rd and so on
+                                           --, the oldest audit file will be erase and resatrt to add the new audit,
+                                           -- so it goes to 2nd , 3rd and so on
     RESERVE_DISK_SPACE = OFF                -- Pre-allocates space for better performance but we turn it off for now.
 )
 WITH (
