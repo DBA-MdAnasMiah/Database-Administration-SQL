@@ -44,7 +44,7 @@ GO
 > - When it reaches file #3 and needs to make file #4, it deletes the oldest one (file #1) and reuses that space.
 
 
-Step 2: Let's now create the audit specification(specs) for the audit we created
+Step 2: Let's now create the audit specification(specs) for the audit we created, so run it.
 
 ```sql
 USE [master]
@@ -68,7 +68,7 @@ GO
 
 
 
-Step 3: This will enable the audit and it's specs
+Step 3: This will enable the audit and it's specs so execute it.
 
 ```sql
 
@@ -85,8 +85,7 @@ GO
 
 
 
-Step 4: check if they are enabled or not by the following query
-
+Step 4: check if they are enabled or not by the running this step.
 ```sql
 
 SELECT
