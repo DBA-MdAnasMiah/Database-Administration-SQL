@@ -67,7 +67,7 @@ DROP LOGIN [test_user]
 
 > **Extra Notes:**  
 Sometimes SQL logins doesnt want to get deleted for the few reason that I have listed.
-<br>` - The login has a user inside one or more databases.`
+<br>`- The login has a user inside one or more databases.`
 <br>`- The login is the owner of a database.`
 <br>`- The login owns a schema.`
 <br>`- The login is still connected or has active sessions.`
