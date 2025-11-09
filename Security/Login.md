@@ -66,7 +66,7 @@ DROP LOGIN [test_user]
 
 
 > **Extra Notes:**  
-Sometimes SQL logins doesnt want to get deleted for the few reason that I have listed.
+Sometimes SQL logins dont want to get deleted for the few reasons that I have listed down.
 <br>`- The SQL login has a user inside one or more databases.`
 <br>`- The SQL login is the owner of a database.`
 <br>`- The SQL login owns a schema.`
