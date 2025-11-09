@@ -40,7 +40,7 @@ GO
 > **Extra Notes:**
 > It starts with file #1 (1 GB).
 > When that fills up, it makes file #2, then file #3.
->- When it reaches file #3 and needs to make file #4, it deletes the oldest one (file #1) and reuses that space.
+> When it reaches file #3 and needs to make file #4, it deletes the oldest one (file #1) and reuses that space.
 
 
 ## Summary
