@@ -24,10 +24,15 @@ TO FILE (
                                            -- so it goes to 2nd , 3rd and so on
     RESERVE_DISK_SPACE = OFF                -- Pre-allocates space for better performance but we turn it off for now.
 )
+
+
+
 WITH (
     QUEUE_DELAY = 1000,                    -- 1-second buffer to lower overhead
     ON_FAILURE = CONTINUE                  -- if something happends to audit, we still want to run sql without any issue
-);
+)
+
+WHERE server_principal_name <> 'Your_app_login'; -- this exclude any app login as they will be have constant logged in to the server for the backend activity.
 GO
 
 ```
