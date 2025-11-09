@@ -56,7 +56,7 @@
 - Indexing Strategies  
 - Resource Governor  
 - Wait Statistics  
-- Extended Events & Profiler  
+- Extended Events
 
 </details>
 
