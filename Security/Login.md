@@ -21,3 +21,9 @@ ALTER SERVER ROLE [sysadmin] ADD MEMBER [Anas]
 GO
 
 ```
+
+
+### Options:
+- **CHECK_EXPIRATION=OFF**: this allow the login to be never expire.  
+- **CHECK_POLICY=OFF**: this allow to SQL login to ignores Windows password rules, also allows us to put easy password. 
+---
