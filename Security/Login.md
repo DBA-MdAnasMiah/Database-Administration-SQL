@@ -31,7 +31,8 @@ GO
 
 **Notes:**
 - Using a Login a system/application or persion can login to the SQL instance.
-- Make sure SQL login is enable in the instance level or else SQL server wont allow you to create one - SQLServerInstance -> Properties -> Security -> Server Authentication Mode (SQl Server and Windows Authentication mode)
+- Make sure SQL login is enable in the instance level or else SQL server wont allow you to create one
+-- SQLServerInstance -> Properties -> Security -> Server Authentication Mode (SQl Server and Windows Authentication mode)
   
 ---
 
