@@ -26,9 +26,9 @@
 </details>
 
 <details>
-<summary>🔒 Security & Access Control</summary>
+<summary>🔒 Security & Access Control </summary>
 
-- Authentication Modes (Windows, SQL)  
+- [Windows SQL login](https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/blob/main/Security/Login.md)
 - User, Roles & Permissions Management  
 - Transparent Data Encryption (TDE)  
 - Row-Level Security  
