@@ -25,7 +25,7 @@ TO FILE (
 )
 WITH (
     QUEUE_DELAY = 1000,                    -- 1-second buffer to lower overhead
-    ON_FAILURE = CONTINUE                  -- If path breaks, SQL keeps running (safe for prod)
+    ON_FAILURE = CONTINUE                  -- if something happends to audit, we still want to run sql without any issue
 );
 GO
 
