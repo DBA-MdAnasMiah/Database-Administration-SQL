@@ -26,8 +26,8 @@ GO
 `SQL Server Instance → Security → Login → New Login` (right clicking Logins folder) → `General -> Login name:` AnasLogin, click on SQL `Server Authentication`, provide the password and click on `sysadmin` on the `Server Roles -> ok` <br>
 
 ### Options:
-- **CHECK_EXPIRATION=OFF**: this allow the login to be never expire.  
-- **CHECK_POLICY=OFF**: this allow to SQL login to ignores Windows password rules, also allows us to put easy password. 
+- **CHECK_EXPIRATION=OFF**: this allows the login never to expire.  
+- **CHECK_POLICY=OFF**: this allows to SQL login to ignores Windows password rules, also allows us to put easy password. 
 ---
 
 
