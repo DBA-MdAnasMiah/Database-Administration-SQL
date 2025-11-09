@@ -30,16 +30,15 @@ GO
 
 
 **Notes:**
-- Using a Login a system/application or persion can login to the SQL instance.
+-
 
 > **Note:**  
-> To allow both Windows and SQL logins to connect, ensure the server is set to **Mixed Authentication Mode**.
+>  Using a Login a system/application or persion can login to the SQL instance.
+>  To allow both Windows and SQL logins to connect, ensure the server is set to **Mixed Authentication Mode**.
 
-**Path:**  
+**To change the Authentication Mode:**  
 `SQL Server Instance → Properties → Security → Server Authentication → SQL Server and Windows Authentication mode`
-
-✅ This enables **Windows Authentication** and **SQL Server Authentication**.  
-⚠️ After changing this setting, make sure to **restart the SQL Server service** for the change to take effect.
+⚠️ this requires SQL server restart to change the authentication mode.
 
 ## Create Login with least privilage.
 
