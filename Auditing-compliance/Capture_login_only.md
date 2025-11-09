@@ -6,12 +6,11 @@
 
 
 
-# SQL Server Restore Scripts
-
+# SQL Server Login Capture by Audit
+We will be capturing who login to SQL server. This audit wont capture anything else other than Logins.
 ---
 
-## To restore a database
-
+Step 1: 
 
 ```sql
 USE [master]
