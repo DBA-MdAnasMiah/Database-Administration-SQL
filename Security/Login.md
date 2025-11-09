@@ -7,7 +7,7 @@
 
 ## To create login
 
-The full backup is the **main** / **primary** backup that required for restoring the database.  
+The following Script will create SQL login with higest Privilage in the SQL instance.
 
 ```sql
 USE [master]
