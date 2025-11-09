@@ -77,4 +77,4 @@ Sometimes SQL logins doesnt want to get deleted for the few reason that I have l
 - The login is used by replication or an application service.
 - The login is still part of a server or database role.
 - The login belongs to a contained database user <br>
-`⚠️ this requires SQL server restart to change the authentication mode.`
+`Remove the connection of the SQL login before dropping it`
