@@ -33,8 +33,8 @@ WITH (
 )
 
 WHERE server_principal_name <> 'Your_app_login'; /* this exclude any app_login as they will be have constant logged in to the server
-                                                  for the backend activity like customer activity and all but if you want to also
-inlcude it then just simply removed the entire where condition line. */
+                                                    for the backend activity like customer activity and all but if you want to also
+                                                    inlcude it then just simply removed the entire where condition line. */
 GO
 
 ```
