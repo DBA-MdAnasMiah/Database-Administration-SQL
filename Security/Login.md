@@ -80,5 +80,5 @@ Sometimes SQL logins doesnt want to get deleted for the few reason that I have l
 Remove the connection of the SQL login before dropping it`
 
 **To drop/delete SQL Login graphically:**  
-`SQL Server Instance → **Security → Login** → Anas_login` (right clicking) → `Delete -> ok` 
+`SQL Server Instance → Security → Login** → Anas_login` (right clicking) → `Delete -> ok` 
 
