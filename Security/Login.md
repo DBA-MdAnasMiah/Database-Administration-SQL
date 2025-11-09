@@ -65,7 +65,7 @@ DROP LOGIN [test_user]
 >  This will drop the SQL login from the instance Completely.
 
 
-**Extra Notes:**  
+> **Extra Notes:**  
 Sometimes SQL logins doesnt want to get deleted for the few reason that I have listed.
 - The login has a user inside one or more databases.
 - The login is the owner of a database.
