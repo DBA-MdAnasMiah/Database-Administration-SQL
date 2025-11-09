@@ -23,7 +23,7 @@ GO
 ```
 
 **To create SQL Login graphically:**  
-`SQL Server Instance → **Security → Login** → New Login` (right clicking Logins folder) → `General -> Login name:` AnasLogin, click on SQL `Server Authentication`, provide the password and click on `sysadmin` on the `Server Roles -> ok` <br>
+`SQL Server Instance → Security → Login → New Login` (right clicking Logins folder) → `General -> Login name:` AnasLogin, click on SQL `Server Authentication`, provide the password and click on `sysadmin` on the `Server Roles -> ok` <br>
 
 ### Options:
 - **CHECK_EXPIRATION=OFF**: this allow the login to be never expire.  
@@ -78,3 +78,7 @@ Sometimes SQL logins doesnt want to get deleted for the few reason that I have l
 <br>`- The SQL login is still part of a server or database role.`
 <br>`- The SQL login belongs to a contained database user <br>
 Remove the connection of the SQL login before dropping it`
+
+**To drop/delete SQL Login graphically:**  
+`SQL Server Instance → **Security → Login** → Anas_login` (right clicking) → `Delete -> ok` 
+
