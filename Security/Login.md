@@ -31,9 +31,15 @@ GO
 
 **Notes:**
 - Using a Login a system/application or persion can login to the SQL instance.
-- Make sure SQL login is enable in the instance level or else SQL server wont allow you to create one
-  [SQLServerInstance -> Properties -> Security -> Server Authentication Mode (SQl Server and Windows Authentication mode)]
----
+
+> **Note:**  
+> To allow both Windows and SQL logins to connect, ensure the server is set to **Mixed Authentication Mode**.
+
+**Path:**  
+`SQL Server Instance → Properties → Security → Server Authentication → SQL Server and Windows Authentication mode`
+
+✅ This enables **Windows Authentication** and **SQL Server Authentication**.  
+⚠️ After changing this setting, make sure to **restart the SQL Server service** for the change to take effect.
 
 ## Create Login with least privilage.
 
