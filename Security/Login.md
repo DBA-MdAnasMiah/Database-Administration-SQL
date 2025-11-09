@@ -27,3 +27,16 @@ GO
 - **CHECK_EXPIRATION=OFF**: this allow the login to be never expire.  
 - **CHECK_POLICY=OFF**: this allow to SQL login to ignores Windows password rules, also allows us to put easy password. 
 ---
+
+
+## Create Login with least privilage.
+
+The following scirpt will generate a login with no permission, this login wont be able to do anything in the database, unless we grant any other permission, like sysadmin or anything.
+
+```sql
+USE [master]
+
+CREATE LOGIN YourLogin
+WITH PASSWORD = '123', CHECK_POLICY = OFF;
+
+```
