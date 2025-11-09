@@ -82,3 +82,8 @@ Remove the connection of the SQL login before dropping it`
 **To drop/delete SQL Login graphically:**  
 `SQL Server Instance → Security → Login** → Anas_login` (right clicking) → `Delete -> ok` 
 
+
+## Google Drive
+[Google Drive Notes : Security - Login](https://docs.google.com/document/d/1jdCEy3DdIscTp9B8n7OGrPM26xEkT1zQ8L-n_iHYT-Y/edit?tab=t.0)
+
+
