@@ -10,57 +10,38 @@
 We will be capturing who login to SQL server. This audit wont capture anything else other than Logins.
 ---
 
-Step 1: 
+Step 1: Run this query to generate the SQL audit. 
 
 ```sql
 USE [master]
 
-RESTORE DATABASE [Datawarehouse] FROM  DISK = N'D:\backup\Datawrarehouse.bak' WITH  FILE = 1, 
-MOVE N'Datawarehouse' TO N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\Datawarehouse.mdf', 
-MOVE N'Datawarehouse_log' TO N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\Datawarehouse_log.ldf',  STATS = 10
-
+CREATE SERVER AUDIT [your_Login_Audit_name]
+TO FILE (
+    FILEPATH = 'D:\Audit\',                -- Folder where audit files will be stored
+    MAXSIZE = 1 GB,                        -- Each file is 1 GB and this is where we define it
+    MAX_ROLLOVER_FILES = 3,                -- Keep only the latest 3 files (~3 GB total), so lets say if those 3 files fill up
+	                                                           --, the oldest audit file will be erase and resatrt to add the new audit, so it goes to 2nd , 3rd and so on
+    RESERVE_DISK_SPACE = OFF                -- Pre-allocates space for better performance but we turn it off for now.
+)
+WITH (
+    QUEUE_DELAY = 1000,                    -- 1-second buffer to lower overhead
+    ON_FAILURE = CONTINUE                  -- If path breaks, SQL keeps running (safe for prod)
+);
 GO
 
 
 ```
 
-### Options:
-- **Restore with Recovery**: finishes the restore and makes the database ready to use — no more restores can be done after that.
-- **Restore with no Recovery**: Means other file left to add. This keeps the database in restoring mode, so you can apply more backups (like differential or log backups) before making it usable.
-- **Relocate all files to folder**: when we restore a database, SQL Server will put all the database files (.mdf, .ndf, .ldf) into the new folder you choose instead of their old original paths.
----
-
-## To restore trn logs
-
-To restore a transaction log backup, the database must first be in restoring mode, which happens when you restore the earlier backup with NO RECOVERY.
-
-```sql
-RESTORE LOG [Datawarehouse] -- database name goes here
-FROM DISK = N'D:\backup\datawarehouse.trn' -- path of your tnn log file
-WITH RECOVERY;     -- this makes DB ready to use
-
-```
-
 **Notes:**
-- must have fullbackup earlier
-- Essential for point-in-time recovery.
-- Need to have 'with recovery' to bring back database online
+- In order for us to create auditing in SQL, we must create the audit and step 1 does the work
+- step 2 will generate the audit specs which mean what we want to capture, in our case we will be capturng the SQL login, basically who logged in and out to server.
+- In step 3 we will be enabling the audit and specs in order for it to run it.
+- step 4, we will query out the audit.
 
----
-
-
-## To restore differential backup 
-
-to restore differencial backup, we need to have the database in restoring state earlier.
-
-```sql
-
-RESTORE DATABASE [Datawarehouse]
-FROM DISK = N'D:\backup\datawarehouse_diff.bak' -- must have accurate path
-WITH RECOVERY,
-STATS = 10;
-
-```
+**Extra Notes:**
+- It starts with file #1 (1 GB).
+- When that fills up, it makes file #2, then file #3.
+- When it reaches file #3 and needs to make file #4, it deletes the oldest one (file #1) and reuses that space.
 
 
 ## Summary
