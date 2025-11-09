@@ -23,7 +23,7 @@ GO
 ```
 
 **To create SQL Login graphically:**  
-`SQL Server Instance` → **Security → Login** → New Login (right clicking Logins folder) → General -> Login name: AnasLogin, click on SQL Server Authentication, provide the password and click on sysadmin on the Server Roles` <br>
+`SQL Server Instance → **Security → Login** → New Login` (right clicking Logins folder) → `General -> Login name:` AnasLogin, click on SQL `Server Authentication`, provide the password and click on `sysadmin` on the `Server Roles -> ok` <br>
 
 ### Options:
 - **CHECK_EXPIRATION=OFF**: this allow the login to be never expire.  
