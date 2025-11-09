@@ -123,8 +123,6 @@ GO
 
 ```
 
-> **Note:**   <br>
-> - it will show us the list of events <br>
 
 we can also graphically see the audit log event
 security -> Audit -> View Audit Logs
