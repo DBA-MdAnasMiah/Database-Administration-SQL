@@ -17,10 +17,10 @@ USE [master]
 
 CREATE SERVER AUDIT [your_Login_Audit_name]
 TO FILE (
-    FILEPATH = 'D:\Audit\',                -- Folder where audit files will be stored
-    MAXSIZE = 1 GB,                        -- Each file is 1 GB and this is where we define it
-    MAX_ROLLOVER_FILES = 3,                -- Keep only the latest 3 files (~3 GB total), so lets say if those 3 files fill up
-                                           --, the oldest audit file will be erase and resatrt to add the new audit,
+    FILEPATH = 'D:\Audit\',                -- Folder/location where audit files will be stored
+    MAXSIZE = 1 GB,                        -- each file is 1 GB and this is where we define it
+    MAX_ROLLOVER_FILES = 3,                -- keep only the latest 3 files (~3 GB total), so lets say if those 3 files fill up
+                                           --, the oldest audit file will be truncate/erase and resatrt to add the new audit,
                                            -- so it goes to 2nd , 3rd and so on
     RESERVE_DISK_SPACE = OFF                -- Pre-allocates space for better performance but we turn it off for now.
 )
@@ -44,21 +44,102 @@ GO
 > - When it reaches file #3 and needs to make file #4, it deletes the oldest one (file #1) and reuses that space.
 
 
+Step 2: Let's now create the audit specification(specs) for the audit we created
+
+```sql
+USE [master]
+
+CREATE SERVER AUDIT SPECIFICATION [Login_Audit_Spec]
+FOR SERVER AUDIT [your_Login_Audit_name]
+ADD (SUCCESSFUL_LOGIN_GROUP),   -- Records successful logins
+ADD (FAILED_LOGIN_GROUP),       -- Records failed login attempts
+ADD (LOGOUT_GROUP)              -- Records logouts
+WITH (STATE = OFF);             -- Turned off until audit is enabled, which we will enable after creating this.
+GO
+
+```
+
+> **Note:**   <br>
+> - This will only allow is to capture login <br>
+> - ADD (SUCCESSFUL_LOGIN_GROUP) capture the successful logins list <br>
+> - ADD (FAILED_LOGIN_GROUP) capture those login who attempted to get in but failed.<br>
+> - ADD (LOGOUT_GROUP) , capture logout logins
+> - WITH (STATE = OFF), this just turn of the specification off before we can enable the audit.
+
+
+
+Step 3: This will enable the audit and it's specs
+
+```sql
+
+USE [master]
+ALTER SERVER AUDIT [your_Login_Audit_name] WITH (STATE = ON);                -- Start writing audit files
+ALTER SERVER AUDIT SPECIFICATION [Login_Audit_Spec] WITH (STATE = ON);       -- Start capturing events
+GO
+
+
+```
+
+> **Note:**   <br>
+> - this requires in order for us to run the audit <br>
+
+
+
+Step 4: check if they are enabled or not by the following query
+
+```sql
+
+SELECT
+    name,
+    audit_file_path,
+    status_desc,         -- Shows whether audit is started or stopped
+    is_state_enabled = CASE WHEN status = 1 THEN 'ON' ELSE 'OFF' END
+FROM sys.dm_server_audit_status;
+GO
+
+
+```
+
+> **Note:**   <br>
+> - this requires in order for us to run the audit <br>
+
+
+
+
+
+Step 5: We will check what it captures by the following query
+
+```sql
+
+SELECT TOP (10)
+    event_time,
+    server_principal_name,   -- Who logged in/out
+    client_ip,
+    action_id,               -- LGIS=Login success, LGIF=Login failed, LOGO=Logout
+    succeeded,
+    session_id
+FROM sys.fn_get_audit_file('D:\Audit\*.sqlaudit', DEFAULT, DEFAULT)
+ORDER BY event_time DESC;
+GO
+
+```
+
+> **Note:**   <br>
+> - it will show us the list of events <br>
+
+we can also graphically see the audit log event
+security -> Audit -> View Audit Logs
+
+
+
 ## Summary
-
-- **WITH NORECOVERY**: Keeps the database in restoring mode. Allows more backups (like differential or log) to be restored.Use this for all restores before the final one.
-- **WITH RECOVERY**:Brings the database online and ready to use. No more backups can be restored after this. Use this for the last restore step.
-
-`RECOVERY → Finish and bring online` <br>
-`NORECOVERY → Keep restoring`
-
-First, restore the full backup and keep it in restoring mode - WITH NORECOVERY.
-Next, restore the differential backup if you have one - WITH NORECOVERY.
-Finally, restore the log backup and use WITH RECOVERY to make the database ready to use.
-
+This setup creates a SQL Server audit that records who logs in, fails to log in, and logs out.
+It saves the audit data into 3 files, each 1 GB in size.
+When the third file fills up, SQL Server automatically deletes (overwrites) the oldest file and starts a new one.
+This keeps the audit small, clean, and always shows the latest 3 GB of login history without filling up the disk.
 
 ## Google Drive
-[Google Drive Notes : Restore](https://docs.google.com/document/d/1pNMo2O8gcfVnmWUz7CUNayFCvlc6lQzvt-mkI7haPbM/edit?tab=t.0)
+[Google Drive Notes : Audit](https://docs.google.com/document/d/1F9vcGpvaGicK3ZLIcwkm-B0L5r0uAmskWXILgC2bRIs/edit?tab=t.0)
 
 
 
