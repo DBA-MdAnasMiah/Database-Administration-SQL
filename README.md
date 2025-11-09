@@ -57,6 +57,7 @@
 - Resource Governor  
 - Wait Statistics  
 - Extended Events
+- Query Store
 
 </details>
 
