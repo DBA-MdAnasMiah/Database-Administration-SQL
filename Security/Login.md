@@ -67,14 +67,14 @@ DROP LOGIN [test_user]
 
 > **Extra Notes:**  
 Sometimes SQL logins doesnt want to get deleted for the few reason that I have listed.
-- The login has a user inside one or more databases.
-- The login is the owner of a database.
-- The login owns a schema.
-- The login is still connected or has active sessions.
-- The login owns a SQL Agent job.
-- The login owns a SQL Agent proxy or credential.
-- The login owns a server object like an endpoint.
-- The login is used by replication or an application service.
-- The login is still part of a server or database role.
-- The login belongs to a contained database user <br>
-`Remove the connection of the SQL login before dropping it`
+` - The login has a user inside one or more databases.`
+`- The login is the owner of a database.`
+`- The login owns a schema.`
+`- The login is still connected or has active sessions.`
+`- The login owns a SQL Agent job.`
+`- The login owns a SQL Agent proxy or credential.`
+`- The login owns a server object like an endpoint.`
+`- The login is used by replication or an application service.`
+`- The login is still part of a server or database role.`
+`- The login belongs to a contained database user <br>
+Remove the connection of the SQL login before dropping it`
