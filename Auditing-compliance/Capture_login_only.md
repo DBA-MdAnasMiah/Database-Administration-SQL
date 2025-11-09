@@ -31,16 +31,16 @@ GO
 
 ```
 
-**Notes:**
-- In order for us to create auditing in SQL, we must create the audit and step 1 does the work
-- step 2 will generate the audit specs which mean what we want to capture, in our case we will be capturng the SQL login, basically who logged in and out to server.
-- In step 3 we will be enabling the audit and specs in order for it to run it.
-- step 4, we will query out the audit.
+> **Note:**  
+> In order for us to create auditing in SQL, we must create the audit and step 1 does the work
+> step 2 will generate the audit specs which mean what we want to capture, in our case we will be capturng the SQL login, basically who logged in and out to server.
+> In step 3 we will be enabling the audit and specs in order for it to run it.
+> step 4, we will query out the audit.
 
-**Extra Notes:**
-- It starts with file #1 (1 GB).
-- When that fills up, it makes file #2, then file #3.
-- When it reaches file #3 and needs to make file #4, it deletes the oldest one (file #1) and reuses that space.
+> **Extra Notes:**
+> It starts with file #1 (1 GB).
+> When that fills up, it makes file #2, then file #3.
+>- When it reaches file #3 and needs to make file #4, it deletes the oldest one (file #1) and reuses that space.
 
 
 ## Summary
