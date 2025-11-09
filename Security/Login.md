@@ -29,6 +29,12 @@ GO
 ---
 
 
+**Notes:**
+- Using a Login a system/application or persion can login to the SQL instance.
+- Make sure SQL login is enable in the instance level or else SQL server wont allow you to create one - SQLServerInstance -> Properties -> Security -> Server Authentication Mode (SQl Server and Windows Authentication mode)
+  
+---
+
 ## Create Login with least privilage.
 
 The following scirpt will generate a login with no permission, this login wont be able to do anything in the database, unless we grant any other permission, like sysadmin or anything.
