@@ -62,7 +62,7 @@ DROP LOGIN [test_user]
 
 ```
 > **Note:**  
->  This will drop the SQL login from the instance Completely.
+>  This will drop the SQL login from the instance completely.
 
 
 > **Extra Notes:**  
