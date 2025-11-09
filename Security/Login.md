@@ -7,7 +7,7 @@
 
 ## To create login
 
-The following Script will create SQL login with higest Privilage in the SQL instance.
+The following Script will create SQL login with highest Privilege in the SQL instance.
 
 ```sql
 USE [master]
