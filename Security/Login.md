@@ -37,7 +37,7 @@ GO
 >  To allow both Windows and SQL logins to connect, ensure the server is set to **Mixed Authentication Mode**.
 
 **To change the Authentication Mode:**  
-`SQL Server Instance → Properties → Security → Server Authentication → SQL Server and Windows Authentication mode`
+`SQL Server Instance → Properties → Security → Server Authentication → SQL Server and Windows Authentication mode` <br>
 `⚠️ this requires SQL server restart to change the authentication mode.`
 
 ## Create Login with least privilage.
