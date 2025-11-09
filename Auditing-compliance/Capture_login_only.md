@@ -99,12 +99,6 @@ GO
 
 ```
 
-> **Note:**   <br>
-> - this requires in order for us to run the audit <br>
-
-
-
-
 
 Step 5: We will check what it captures by the following query
 
