@@ -32,16 +32,16 @@ WITH (
     ON_FAILURE = CONTINUE                  -- if something happends to audit, we still want to run sql without any issue
 )
 
-WHERE server_principal_name <> 'Your_app_login'; /* this exclude any app_login as they will be have constant logged in to the server
+WHERE server_principal_name <> 'Your_app_login'; /* this excludes any app_login as they will be have constantly logged in to the server
                                                     for the backend activity like customer activity and all but if you want to also
-                                                    inlcude it then just simply removed the entire where condition line. */
+                                                    inlcude it then just simply remove the entire where condition line. */
 GO
 
 ```
 
 > **Note:**   <br>
-> - In order for us to create auditing in SQL, we must create the audit and step 1 does the work <br>
-> - step 2 will generate the audit specs which mean what we want to capture, in our case we will be capturng the SQL login, basically who logged in and out to server. <br>
+> - In order for us to create the auditing in SQL, we must create the audit and step 1 does the work <br>
+> - step 2 will generate the audit specs which mean what we want to capture, in our case we will be capturing the SQL login, basically who logged in and out to server. <br>
 > - In step 3 we will be enabling the audit and specs in order for it to run it.<br>
 > - step 4, we will query out the audit.
 
@@ -70,8 +70,8 @@ GO
 > - This will only allow is to capture login <br>
 > - ADD (SUCCESSFUL_LOGIN_GROUP) capture the successful logins list <br>
 > - ADD (FAILED_LOGIN_GROUP) capture those login who attempted to get in but failed.<br>
-> - ADD (LOGOUT_GROUP) , capture logout logins
-> - WITH (STATE = OFF), this just turn of the specification off before we can enable the audit.
+> - ADD (LOGOUT_GROUP) , captures logout events
+> - WITH (STATE = OFF), this just turns of the specification off before we can enable the audit.
 
 
 
