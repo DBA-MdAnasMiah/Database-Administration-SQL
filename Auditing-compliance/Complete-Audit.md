@@ -10,139 +10,128 @@
 # Capture Database Modification,
 We will be capturing the listed thing down below.
 > - Who(Login) access/logged in to the server <br>
-> - Who deleted Datbase, table, store proc <br>
+> - Who deleted Datbase, table, store proc, etc. <br>
 > - Who updated, deleted, inserted data in to the database table<br>
 
 ---
 
-Step 1: Run this query to generate the SQL audit. 
+Step 1: we need to create a server audit first, the following sql create the audit and enable it.
 
 ```sql
-USE [master]
-
-CREATE SERVER AUDIT [your_Login_Audit_name]
+USE MASTER
+CREATE SERVER AUDIT my_server_Audit
 TO FILE (
-    FILEPATH = 'D:\Audit\',                -- Folder/location where audit files will be stored
+   FILEPATH = 'D:\Audit\',                 -- put the path where you want to save your audit file.
     MAXSIZE = 1 GB,                        -- each file is 1 GB and this is where we define it
-    MAX_ROLLOVER_FILES = 3,                -- keep only the latest 3 files (~3 GB total), so lets say if those 3 files fill up
-                                           --, the oldest audit file will be truncate/erase and resatrt to add the new audit,
-                                           -- so it goes to 2nd , 3rd and so on
-    RESERVE_DISK_SPACE = OFF                -- Pre-allocates space for better performance but we turn it off for now.
+    MAX_ROLLOVER_FILES =3, -- it will be creating 1gb storage all together then rollback to oldest one and start to write the log to the old one.
+	RESERVE_DISK_SPACE = OFF   
 )
-
-
-
 WITH (
-    QUEUE_DELAY = 1000,                    -- 1-second buffer to lower overhead
-    ON_FAILURE = CONTINUE                  -- if something happends to audit, we still want to run sql without any issue
+    QUEUE_DELAY = 1000,         -- flush every 1 second
+    ON_FAILURE = CONTINUE      -- keep running even if audit fails
+ 
 )
+ WHERE server_principal_name <> 'app';  -- exclude this login , if you want to exclude any login like app login or something that are very busy
+                                        -- and we dont need to capture their activty as they will have constant login activity, then we can simple exclude it here.
 
-WHERE server_principal_name <> 'Your_app_login'; /* this exclude any app_login as they will be have constant logged in to the server
-                                                    for the backend activity like customer activity and all but if you want to also
-                                                    inlcude it then just simply removed the entire where condition line. */
+-- Enable the audit
+ALTER SERVER AUDIT my_server_Audit WITH (STATE = ON);
 GO
+
 
 ```
 
 > **Note:**   <br>
-> - In order for us to create auditing in SQL, we must create the audit and step 1 does the work <br>
-> - step 2 will generate the audit specs which mean what we want to capture, in our case we will be capturng the SQL login, basically who logged in and out to server. <br>
-> - In step 3 we will be enabling the audit and specs in order for it to run it.<br>
-> - step 4, we will query out the audit.
+> - we are excluding the app login because it will be connected to the application site and generate alot of login attempts. <br>
+> - in you want to just do audit for only specific user then in where condition we need to put like 'WHERE server_principal_name = 'AnasLogin';'
+> - also note, we need to create the server audit on Master database.
 
-> **Extra Notes:** <br>
-> - It starts with file #1 (1 GB). <br>
-> - When that fills up, it makes file #2, then file #3. <br>
-> - When it reaches file #3 and needs to make file #4, it deletes the oldest one (file #1) and reuses that space.
-
-
-Step 2: Let's now create the audit specification(specs) for the audit we created, so run it.
+Step 2: We need to create audit specification for the audit we created so lets name is my_Server_Audit_specs, you can name anything you like. 
 
 ```sql
-USE [master]
-
-CREATE SERVER AUDIT SPECIFICATION [Login_Audit_Spec]
-FOR SERVER AUDIT [your_Login_Audit_name]
-ADD (SUCCESSFUL_LOGIN_GROUP),   -- Records successful logins
-ADD (FAILED_LOGIN_GROUP),       -- Records failed login attempts
-ADD (LOGOUT_GROUP)              -- Records logouts
-WITH (STATE = OFF);             -- Turned off until audit is enabled, which we will enable after creating this.
+USE master
 GO
+CREATE SERVER AUDIT SPECIFICATION my_Server_Audit_specs
+FOR SERVER AUDIT my_server_Audit
+    ADD (SUCCESSFUL_LOGIN_GROUP), -- this captures the login
+    ADD (LOGOUT_GROUP), -- capture the logout
+    ADD (DATABASE_CHANGE_GROUP); -- this capture  CREATE/ALTER/DROP DATABASE
+GO
+
+ALTER SERVER AUDIT SPECIFICATION  my_Server_Audit_specs WITH (STATE = ON);
+GO
+
 
 ```
 
 > **Note:**   <br>
-> - This will only allow is to capture login <br>
+> - ADD (SUCCESSFUL_LOGIN_GROUP), -- this captures the login <br>
 > - ADD (SUCCESSFUL_LOGIN_GROUP) capture the successful logins list <br>
-> - ADD (FAILED_LOGIN_GROUP) capture those login who attempted to get in but failed.<br>
-> - ADD (LOGOUT_GROUP) , capture logout logins
-> - WITH (STATE = OFF), this just turn of the specification off before we can enable the audit.
+> - ADD (LOGOUT_GROUP), -- capture the logout. <br>
+> - ADD (DATABASE_CHANGE_GROUP); -- this capture  CREATE/ALTER/DROP DATABASE.
 
 
-
-Step 3: This will enable the audit and it's specs so execute it.
+Step 3: Apply the audit to one specific database, in our case lets choose AdventureWorks database, so run the following script down below.
 
 ```sql
 
-USE [master]
-ALTER SERVER AUDIT [your_Login_Audit_name] WITH (STATE = ON);                -- Start writing audit files
-ALTER SERVER AUDIT SPECIFICATION [Login_Audit_Spec] WITH (STATE = ON);       -- Start capturing events
+USE [Adventureworks]
+GO
+Create DATABASE AUDIT SPECIFICATION my_DB_Audit -- give your database audit name
+FOR SERVER AUDIT my_server_Audit -- include server audit name here
+	add (SCHEMA_OBJECT_CHANGE_GROUP), -- captures CREATE/ALTER/DROP of tables, views, procs, etc.
+    ADD (INSERT ON DATABASE::AdventureWorks BY PUBLIC),  -- capture inserts into any table
+    ADD (UPDATE ON DATABASE::AdventureWorks BY PUBLIC),  -- capture updates on any table
+    ADD (DELETE ON DATABASE::AdventureWorks BY PUBLIC);  -- capture deletes on any table
+GO
+
+ALTER DATABASE AUDIT SPECIFICATION my_DB_Audit WITH (STATE = ON); -- this enable the specs
 GO
 
 
 ```
 
 > **Note:**   <br>
-> - this requires in order for us to run the audit <br>
+> - add (SCHEMA_OBJECT_CHANGE_GROUP), -- captures CREATE/ALTER/DROP of tables, views, procs, etc. <br>
+> - ADD (INSERT ON DATABASE::AdventureWorks BY PUBLIC),  -- capture inserts into any table
+> - ADD (UPDATE ON DATABASE::AdventureWorks BY PUBLIC),  -- capture updates on any table
+> - ADD (DELETE ON DATABASE::AdventureWorks BY PUBLIC);  -- capture deletes on any table
+> - makesure to chnage the database name based upon your database name.
 
 
-
-Step 4: check if they are enabled or not by the running this step.
+Step 4: now query out the server audit to check who deleted a database or table.
 ```sql
 
-SELECT
-    name,
-    audit_file_path,
-    status_desc,         -- Shows whether audit is started or stopped
-    is_state_enabled = CASE WHEN status = 1 THEN 'ON' ELSE 'OFF' END
-FROM sys.dm_server_audit_status;
-GO
-
-
-```
-
-
-Step 5: We will check what it captures by the following query
-
-```sql
-
-SELECT TOP (10)
-    event_time,
-    server_principal_name,   -- Who logged in/out
-    client_ip,
-    action_id,               -- LGIS=Login success, LGIF=Login failed, LOGO=Logout
-    succeeded,
-    session_id
+--- check who dropped database 
+SELECT event_time, server_principal_name, database_name, schema_name, object_name, statement
 FROM sys.fn_get_audit_file('D:\Audit\*.sqlaudit', DEFAULT, DEFAULT)
+WHERE statement LIKE 'DROP Database %'
 ORDER BY event_time DESC;
-GO
+
+
+--- check who dropped table 
+SELECT event_time, server_principal_name, database_name, schema_name, object_name, statement
+FROM sys.fn_get_audit_file('D:\Audit\*.sqlaudit', DEFAULT, DEFAULT)
+WHERE statement LIKE 'DROP TABLE %'
+ORDER BY event_time DESC;
+
+
 
 ```
 
-
-we can also graphically see the audit log event
+we can also view graphically see the audit log event
 security -> Audit -> View Audit Logs
 
 
 
 ## Summary
-This setup creates a SQL Server audit that records who logs in, fails to log in, and logs out.
+This setup creates a SQL Server audit that records who logs in, fails to log in, and logs out, Who created database/table, drop database/table etc.
 It saves the audit data into 3 files, each 1 GB in size.
 When the third file fills up, SQL Server automatically deletes (overwrites) the oldest file and starts a new one.
 This keeps the audit small, clean, and always shows the latest 3 GB of login history without filling up the disk.
 
 ## Google Drive
-[Google Drive Notes : Audit](https://docs.google.com/document/d/1F9vcGpvaGicK3ZLIcwkm-B0L5r0uAmskWXILgC2bRIs/edit?tab=t.0)
+[Google Drive Notes : Audit - CapturingEverything](https://docs.google.com/document/d/1yAmW_-dvr1cFHdyi8z55WWV5s2DJTTxcKrM22euKpoM/edit?tab=t.0)
 
 
 
