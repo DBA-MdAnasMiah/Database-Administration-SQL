@@ -7,8 +7,12 @@
 
 
 
-# SQL Server Login Capture by Audit
-We will be capturing who login to SQL server. This audit wont capture anything else other than Logins.
+# Capture Database Modification,
+We will be capturing the listed thing down below.
+> - Who(Login) access/logged in to the server <br>
+> - Who deleted Datbase, table, store proc <br>
+> - Who updated, deleted, inserted data in to the database table<br>
+
 ---
 
 Step 1: Run this query to generate the SQL audit. 
