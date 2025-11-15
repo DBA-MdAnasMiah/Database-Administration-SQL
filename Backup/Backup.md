@@ -128,7 +128,7 @@ ORDER BY bs.backup_finish_date DESC;
 
 ##  I have created an app called 'SIMPLE/Simple backup software'
 
-When running this, it will generate automake for you if you command it.
+When running this, it will tkae backup for you.
 
 - **Download**: [sql_connect-v5.ps1](https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/blob/main/Backup/MySoftwares/sql_connect-v5.ps1)
   
