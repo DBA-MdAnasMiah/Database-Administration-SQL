@@ -1,5 +1,5 @@
 # ======================================================================
-# SIMPLE/Simple backup -  VERSION 0.5
+# SIMPLE/EASY backup -  VERSION 0.5
 # Author/created by      : Md Anas Miah
 # Created                : 2025-11-14
 # ======================================================================
@@ -107,7 +107,7 @@ do {
 $useCompression = ($compressChoice -eq "1")
 
 # ----------------------------------------------------------------------
-# SQL OPTIONS TEXT
+# SQL
 # ----------------------------------------------------------------------
 $copyOnlyText = if ($useCopyOnly) { "COPY_ONLY," } else { "" }
 $compressionText = if ($useCompression) { "COMPRESSION" } else { "NO_COMPRESSION" }
@@ -211,6 +211,9 @@ if ($backupMode -eq "2") {
 }
 
 $conn.Close()
+
+# note 1: Some part of this code is  AI generated and borrowed from stackoverflow and combination of my personal codes.
+# warning: You arent allowed to change the author for this code. ©2025
 
 Write-Host ""
 Write-Host "==============================================================="
