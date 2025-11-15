@@ -45,6 +45,7 @@ GO
 > - we are excluding the app login because it will be connected to the application site and generate alot of login attempts. <br>
 > - in you want to just do audit for only specific user then in where condition we need to put like 'WHERE server_principal_name = 'AnasLogin';'
 > - also note, we need to create the server audit on Master database.
+> - sometimes, audit doesnt work so install appropriate hotfixes
 
 Step 2: We need to create audit specification for the audit we created so lets name is my_Server_Audit_specs, you can name anything you like. 
 
