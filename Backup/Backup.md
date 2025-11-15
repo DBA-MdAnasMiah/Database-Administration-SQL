@@ -126,7 +126,7 @@ ORDER BY bs.backup_finish_date DESC;
 ```
 
 
-##  I have created an app called 'SIMPLE/Simple backup software'
+##  I have created an app called 'SIMPLE/EASY backup software'
 
 When running this, it will take backup for you.
 
