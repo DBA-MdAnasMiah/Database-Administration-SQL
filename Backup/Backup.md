@@ -130,7 +130,8 @@ ORDER BY bs.backup_finish_date DESC;
 
 When running this, it will generate automake for you if you command it.
 
-- **Download**: Complete backup of a database.  
+- **Download**: [sql_connect-v5.ps1](https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/blob/main/Backup/MySoftwares/sql_connect-v5.ps1)
+  
 
 
 
