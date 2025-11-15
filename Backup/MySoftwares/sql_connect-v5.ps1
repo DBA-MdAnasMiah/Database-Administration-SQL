@@ -1,8 +1,7 @@
 # ======================================================================
-# SIMPLE SQL BACKUP UTILITY - VALIDATION VERSION
+# SIMPLE/Simple backup -  VERSION 0.1
 # Author      : Md Anas Miah
 # Created     : 2025-11-14
-# Version     : 0.1
 # ======================================================================
 
 Add-Type -AssemblyName "System.Data"
