@@ -209,7 +209,7 @@ END
 
 ```
 **Notes:**
--> Note: make sure to put the extended event file name here and also put * after the name so it dinamically capture other extended file as fills up.  
+> Note: make sure to put the extended event file name here and also put * after the name so it dynamically captures other extended files as it fills up. 
 
 
 
