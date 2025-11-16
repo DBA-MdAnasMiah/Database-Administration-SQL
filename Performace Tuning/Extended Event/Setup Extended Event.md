@@ -220,7 +220,7 @@ END
 this will run to upload extended event files to the table in every 5 mins
 
 **Notes:**
-> in the SQL job step execute the following query under DBA database to run every 5 mins interval. exec [dbo].[LOADXeventTOTABLE];
+> in the SQL job step, schedule the following query under DBA database to run every 5 mins interval. exec [dbo].[LOADXeventTOTABLE];
 
 ##  Step 7: now we need to create another store proc to remove 7 days older data from our table or else it will grow enormously. 
 
@@ -237,20 +237,19 @@ end
 
 ##  Step 9: create another sql job that runs this store proc(sp_delete7DaysOldData) 1 time every weeek
 **Notes:**
-> in the SQL job step, execute the following query under DBA database to run 1 time every wweek, lets schedule it on saturday. exec [dbo].[sp_delete7DaysOldData]
+> in the SQL job step, schedule the following query under DBA database to run 1 time every wweek, lets schedule it on saturday. exec [dbo].[sp_delete7DaysOldData]
 
 
 
 ## Summary
 
-- **Full Backup**: Complete backup of a database.  
-- **Transaction Log Backup**: Incremental changes; must follow full backup and captures the small chnages over time 
-- **Differential Backup**: All changes since last full backup; combines multiple logs.  
+- We created a extended event that captures any long running query(30 seconds) that store those information into a table and 7 days older data get remove from those table timely manner.
+
 
 💡 **Tip:** Make sure to test your backups and restores to ensure reliability.
 
 ## Google Drive
-[Google Drive Notes : Backup](https://docs.google.com/document/d/11Hq9WW8hcnbiI5aux144dF5ZbOWwO6shx2ptFRVTE0g/edit?tab=t.0)
+[Google Drive Notes : extended Event Setup](https://docs.google.com/document/d/11Hq9WW8hcnbiI5aux144dF5ZbOWwO6shx2ptFRVTE0g/edit?tab=t.0)
 
 
 
