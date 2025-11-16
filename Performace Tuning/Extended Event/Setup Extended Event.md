@@ -112,7 +112,7 @@ ALTER EVENT SESSION [capture30LongQuery] ON SERVER STATE = START;
 ```
 > to check the Extended Event -> Server(Anas_PC\DATACENTER) -> Management -> Extended Events -> capture30LongQuery -> package0.event_file -> View Target Data
 
-## Step 3: Create a table in DBA databse.
+## Step 3: Create a table in DBA database.
 
 the purpose of this table is that we want to store any information from our extended event that we generated.
 
