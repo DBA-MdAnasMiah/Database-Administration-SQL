@@ -138,7 +138,7 @@ CREATE TABLE DBA.dbo.Capture30SecondsLongQueriesTable
 
 ```
 **Notes:**
--> Note: we will create store proc on step 5 that will transfer our extended event data to our table(Capture30SecondsLongQueriesTable).  
+> Note: we will create store proc on step 5 that will transfer our extended event data to our table(Capture30SecondsLongQueriesTable).  
 
 
 ---
