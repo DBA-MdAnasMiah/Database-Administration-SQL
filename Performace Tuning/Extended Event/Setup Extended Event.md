@@ -220,8 +220,8 @@ END
 this will run to upload extended event files to the table in every 5 mins
 
 **Notes:**
--> add the following script to the job and schedule it run every 5 mins, name the job as LoadToTable and select DBA database when configuring job step ->   exec [dbo].[LOADXeventTOTABLE] 
--> dont know how to create the job then simply run the following query  down below which will generate the job script for you.
+> add the following script to the job and schedule it run every 5 mins, name the job as LoadToTable and select DBA database when configuring job step ->   exec [dbo].[LOADXeventTOTABLE] 
+> dont know how to create the job then simply run the following query  down below which will generate the job script for you.
 
 
 ```sql
