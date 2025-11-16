@@ -100,19 +100,20 @@ GO
 - **TRACK_CAUSALITY**: We are NOT linking events together.
 - ** STARTUP_STATE**: If the SQL Server restarts, it automatically star.
 > This extended event file will be created in the following path -> N'\\ANAS_PC\anas\extendedEvent\capture30LongQuery.xel'
+
 ---
 
 ## Step 2: Now run/enable the Extended Event that we generated.
-
 ```sql
 USE MASTER;
 GO;
 ALTER EVENT SESSION [capture30LongQuery] ON SERVER STATE = START;
 ```
+> to check the Extended Event -> Server(Anas_PC\DATACENTER) -> Management -> Extended Events -> capture30LongQuery -> package0.event_file -> View Target Data
 
-## Step 3: Create a table in DBA databse that will hold the 
+## Step 3: Create a table in DBA databse.
 
-Differential backups capture **all changes since the last full backup**, allowing you to combine multiple transaction logs into a single backup file.
+the purpose of this table is that we want to store any.
 
 ```sql
 
