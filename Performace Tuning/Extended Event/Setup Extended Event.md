@@ -144,7 +144,7 @@ CREATE TABLE DBA.dbo.Capture30SecondsLongQueriesTable
 ---
 
 
-## Step 4: Check the path where we created the store proc
+## Step 4: Check the path where we created the extended event file
 
 
 ```sql
