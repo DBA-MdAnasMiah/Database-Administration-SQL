@@ -220,93 +220,24 @@ END
 this will run to upload extended event files to the table in every 5 mins
 
 **Notes:**
-> add the following script to the job and schedule it run every 5 mins, name the job as LoadToTable and select DBA database when configuring job step ->   exec [dbo].[LOADXeventTOTABLE] <br>
-> dont know how to create the job then simply run the following query  down below which will generate the job script for you.
+> in the SQL job step execute the following query under DBA database to run every 5 mins interval. exec [dbo].[LOADXeventTOTABLE];
 
+##  Step 7: now we need to create another store proc to remove 7 days older data from our table or else it will grow enormously. 
 
 ```sql
-
-USE [msdb]
+USE DBA
 GO
-
-/****** Object:  Job [loadToTable]    Script Date: 11/15/2025 9:53:05 PM ******/
-BEGIN TRANSACTION
-DECLARE @ReturnCode INT
-SELECT @ReturnCode = 0
-/****** Object:  JobCategory [[Uncategorized (Local)]]    Script Date: 11/15/2025 9:53:05 PM ******/
-IF NOT EXISTS (SELECT name FROM msdb.dbo.syscategories WHERE name=N'[Uncategorized (Local)]' AND category_class=1)
-BEGIN
-EXEC @ReturnCode = msdb.dbo.sp_add_category @class=N'JOB', @type=N'LOCAL', @name=N'[Uncategorized (Local)]'
-IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-
-END
-
-DECLARE @jobId BINARY(16)
-EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N'loadToTable', 
-		@enabled=1, 
-		@notify_level_eventlog=0, 
-		@notify_level_email=0, 
-		@notify_level_netsend=0, 
-		@notify_level_page=0, 
-		@delete_level=0, 
-		@description=N'No description available.', 
-		@category_name=N'[Uncategorized (Local)]', 
-		@owner_login_name=N'sa', @job_id = @jobId OUTPUT
-IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-/****** Object:  Step [my step]    Script Date: 11/15/2025 9:53:06 PM ******/
-EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'my step', 
-		@step_id=1, 
-		@cmdexec_success_code=0, 
-		@on_success_action=1, 
-		@on_success_step_id=0, 
-		@on_fail_action=2, 
-		@on_fail_step_id=0, 
-		@retry_attempts=0, 
-		@retry_interval=0, 
-		@os_run_priority=0, @subsystem=N'TSQL', 
-		@command=N'EXEC [dbo].[LOADXeventTOTABLE];', 
-		@database_name=N'DBA', 
-		@flags=0
-IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-EXEC @ReturnCode = msdb.dbo.sp_update_job @job_id = @jobId, @start_step_id = 1
-IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-EXEC @ReturnCode = msdb.dbo.sp_add_jobschedule @job_id=@jobId, @name=N'my schedule', 
-		@enabled=1, 
-		@freq_type=4, 
-		@freq_interval=1, 
-		@freq_subday_type=4, 
-		@freq_subday_interval=3, 
-		@freq_relative_interval=0, 
-		@freq_recurrence_factor=0, 
-		@active_start_date=20251115, 
-		@active_end_date=99991231, 
-		@active_start_time=0, 
-		@active_end_time=235959, 
-		@schedule_uid=N'97eeaddf-5f25-44c2-99df-79bf53e8ca31'
-IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
-IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-COMMIT TRANSACTION
-GOTO EndSave
-QuitWithRollback:
-    IF (@@TRANCOUNT > 0) ROLLBACK TRANSACTION
-EndSave:
-GO
-
-
-
+CREATE PROCEDURE sp_delete7DaysOldData
+AS BEGIN
+delete from  DBA.dbo.Capture30SecondsLongQueriesTable 
+where EventTime < dateadd(day, -7, getdate());
+end
 
 ```
 
-
-##  I have created an app called 'SIMPLE/EASY backup software'
-
-When running this, it will take backup for you.
-
-- **Download**: [sql_connect-v5.ps1](https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/blob/main/Backup/MySoftwares/sql_connect-v5.ps1)
-  
-
-
+##  Step 9: create another sql job that runs this store proc(sp_delete7DaysOldData) 1 time every weeek
+**Notes:**
+> in the SQL job step, execute the following query under DBA database to run 1 time every wweek, lets schedule it on saturday. exec [dbo].[sp_delete7DaysOldData]
 
 
 
