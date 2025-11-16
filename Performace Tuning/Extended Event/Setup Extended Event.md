@@ -48,16 +48,16 @@ ADD EVENT sqlserver.sql_batch_completed
 (
     ACTION
     (
-        sqlserver.client_app_name,                      /*👉 App running the query */
-        sqlserver.client_hostname,                     /*👉 Computer name */
-        sqlserver.database_id,                        /*👉 Database ID */
+        sqlserver.client_app_name,                     /*👉 App running the query */
+        sqlserver.client_hostname,                    /*👉 Computer name */
+        sqlserver.database_id,                       /*👉 Database ID */
         sqlserver.database_name,                    /*👉 Database name */
-        sqlserver.plan_handle,                    /*👉 A special ID that lets you open the execution plan later.*/
-        sqlserver.server_principal_name,         /*👉Login name */
-        sqlserver.session_nt_username,          /*👉 Windows username */
-        sqlserver.session_id,                  /*👉 Session number */
-        sqlserver.username,                   /*👉SQL user */
-        sqlserver.sql_text                   /*👉 The SQL text developer or process = ran */
+        sqlserver.plan_handle,                     /*👉 A special ID that lets you open the execution plan later.*/
+        sqlserver.server_principal_name,          /*👉Login name */
+        sqlserver.session_nt_username,           /*👉 Windows username */
+        sqlserver.session_id,                   /*👉 Session number */
+        sqlserver.username,                    /*👉SQL user */
+        sqlserver.sql_text                    /*👉 The SQL text developer or process = ran */
     )
     WHERE
     (
