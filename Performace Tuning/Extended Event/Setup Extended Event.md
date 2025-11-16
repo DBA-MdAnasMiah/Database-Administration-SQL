@@ -11,7 +11,7 @@
 
 ---
 
-## Step 1: lets create the extended event
+## Step 1: create the extended event
 
 First we will create the extended Event and enable it.  
 
