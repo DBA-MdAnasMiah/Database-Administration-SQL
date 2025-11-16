@@ -234,7 +234,7 @@ end
 
 ```
 
-##  Step 9: create another sql job that runs this store proc(sp_delete7DaysOldData) 1 time every weeek
+##  Step 8: create another sql job that runs this store proc(sp_delete7DaysOldData) 1 time every weeek
 **Notes:**
 > in the SQL job step, schedule the following store proc(sp_delete7DaysOldData) under DBA database to run 1 time every wweek, lets schedule it on saturday.
 - exec [dbo].[sp_delete7DaysOldData];
