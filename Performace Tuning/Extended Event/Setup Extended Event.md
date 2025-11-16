@@ -220,7 +220,8 @@ END
 this will run to upload extended event files to the table in every 5 mins
 
 **Notes:**
-> in the SQL job step, schedule the following query under DBA database to run every 5 mins interval. exec [dbo].[LOADXeventTOTABLE];
+> in the SQL job step, schedule the following query under DBA database to run every 5 mins interval.
+- exec [dbo].[LOADXeventTOTABLE];
 
 ##  Step 7: now we need to create another store proc to remove 7 days older data from our table or else it will grow enormously. 
 
@@ -237,7 +238,8 @@ end
 
 ##  Step 9: create another sql job that runs this store proc(sp_delete7DaysOldData) 1 time every weeek
 **Notes:**
-> in the SQL job step, schedule the following query under DBA database to run 1 time every wweek, lets schedule it on saturday. exec [dbo].[sp_delete7DaysOldData]
+> in the SQL job step, schedule the following query under DBA database to run 1 time every wweek, lets schedule it on saturday.
+- exec [dbo].[sp_delete7DaysOldData];
 
 
 
