@@ -7,7 +7,7 @@
 
 
 # Lets setup an Extended Event 
- - (it will capture any query that runs more than 30 second and store to a table).
+ - it will capture any query that runs more than 30 second and store to a table.
 
 ---
 
