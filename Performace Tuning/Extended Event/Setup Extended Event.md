@@ -99,7 +99,7 @@ GO
 - **MAX_DISPATCH_LATENCY**: server waits time before writting those logs to data file.  
 - **MEMORY_PARTITION_MODEP**: Do NOT divide the XE memory.  
 - **TRACK_CAUSALITY**: We are NOT linking events together.
-- ** STARTUP_STATE**: If the SQL Server restarts, it automatically star.
+- ** STARTUP_STATE**: If the SQL Server restarts, it automatically start.
 > This extended event file will be created in the following path -> N'\\ANAS_PC\anas\extendedEvent\capture30LongQuery.xel'
 
 ---
