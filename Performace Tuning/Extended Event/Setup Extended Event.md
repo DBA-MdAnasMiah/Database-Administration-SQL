@@ -99,26 +99,18 @@ GO
 - **MEMORY_PARTITION_MODEP**: Do NOT divide the XE memory.  
 - **TRACK_CAUSALITY**: We are NOT linking events together.
 - ** STARTUP_STATE**: If the SQL Server restarts, it automatically star.
-
+> This extended event file will be created in the following path -> N'\\ANAS_PC\anas\extendedEvent\capture30LongQuery.xel'
 ---
 
-## Transaction Log Backup
-
-Transaction log backups are **incremental backups**. They store all changes and modification since the last backup and require a **full backup first** for recovery.
+## Step 2: Now run/enable the Extended Event that we generated.
 
 ```sql
-BACKUP LOG [anas] 
-TO DISK = N'D:\SQL-backup\your-db-11-25-2025.trn' with STATS = 10, compression;
-
+USE MASTER;
+GO;
+ALTER EVENT SESSION [capture30LongQuery] ON SERVER STATE = START;
 ```
 
-**Notes:**
-- Only valid if a full backup exists.  
-- Essential for point-in-time recovery.
-
----
-
-## Differential Backup
+## Step 3: Create a table in DBA databse that will hold the 
 
 Differential backups capture **all changes since the last full backup**, allowing you to combine multiple transaction logs into a single backup file.
 
