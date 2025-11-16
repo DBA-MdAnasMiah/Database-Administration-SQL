@@ -113,81 +113,187 @@ ALTER EVENT SESSION [capture30LongQuery] ON SERVER STATE = START;
 
 ## Step 3: Create a table in DBA databse.
 
-the purpose of this table is that we want to store any.
+the purpose of this table is that we want to store any information from our extended event that we generated.
 
 ```sql
 
-BACKUP DATABASE [anas] TO  DISK = N'D:\SQL-backup\anas-diff-2025-10-25.bak' 
-WITH  DIFFERENTIAL ,STATS = 10, compression;
+Create database DBA    /* 👉only create dba database if you dont have it but you can 
+                                          use any database, it doesnt have to be DBA database */
+USE DBA
+GO
+
+CREATE TABLE DBA.dbo.Capture30SecondsLongQueriesTable 
+
+   (logID INT IDENTITY (1,1) PRIMARY KEY,
+	EventName nvarchar(50) not null,
+	DurationSeconds float not null,
+	Sqltext nvarchar(max) null,
+	ClientAppName nvarchar(128) null,
+	ClientHostName nvarchar (128) null,
+	DatabaseName nvarchar(128) null,
+	LoginName nvarchar(128) null,
+	EventTime datetime not null )
+
+
 ```
 **Notes:**
-- Requires a full backup to restore.  
-- Useful for reducing restore time compared to restoring multiple transaction log backups.
+-> Note: we will create store proc on step 5 that will transfer our extended event data to our table(Capture30SecondsLongQueriesTable).  
+
 
 ---
 
 
-## Script out all database full backup
+## Step 4: Check the path where we created the store proc
 
 This script out the output for all database backup excluding 4 system databases
 
 ```sql
 
-select 'backup database [' +name+'] to disk = ''D:\SQL-backup\' + name +'.bak'' with stats = 15, compression;'
-from sys.databases where database_id > 4
+/* ===============   Step 4: check wherethe extended event file saved ============ */
 
-```
-
-
-##  To check if the last backup with 'copy only' or not 
-
-This Script will show you if the last backup had copy only option selected
-
-```sql
-
-
-SELECT TOP 1
-    bs.database_name,
-    bs.backup_start_date,
-    bs.backup_finish_date,
-    bs.type AS backup_type,       -- D = full, I = diff, L = log
-    bs.is_copy_only,              -- 1 = COPY_ONLY, 0 = normal
-    CASE 
-        WHEN bs.is_copy_only = 1 THEN 'COPY_ONLY Backup'
-        ELSE 'Normal Backup'
-    END AS CopyOnlyStatus,
-    bmf.physical_device_name AS BackupFile
-FROM msdb.dbo.backupset bs
-JOIN msdb.dbo.backupmediafamily bmf
-    ON bs.media_set_id = bmf.media_set_id
-WHERE bs.database_name = 'AdventureWaorks2019'
-ORDER BY bs.backup_finish_date DESC;
-
-```
-
-
-
-##  To check if last the backup had compression or not
-
-This Script will show you if the last backup had copy only option selected
-
-```sql
-
-
+USE MASTER
 SELECT
-    bs.database_name,
-    bs.backup_finish_date,
-    bs.backup_size,
-    bs.compressed_backup_size,
-    CASE
-        WHEN bs.compressed_backup_size < bs.backup_size THEN 'Compressed'
-        ELSE 'Not Compressed'
-    END AS CompressionStatus,
-    bmf.physical_device_name
-FROM msdb.dbo.backupset bs
-JOIN msdb.dbo.backupmediafamily bmf
-    ON bs.media_set_id = bmf.media_set_id
-ORDER BY bs.backup_finish_date DESC;
+	CAST(T.target_data as XML).value('(EventFileTarget/File/@name)[1]', 'nvarchar(260)') AS XEventFilePath
+FROM sys.dm_xe_sessions As S
+join sys.dm_xe_session_targets as T
+on S.address = T.event_session_address
+where S.name = 'capture30LongQuery'   /* 👉 our extended event's name */
+
+
+```
+
+
+##  Step 5: Create the store proc that will be resposnbible to tranfering data to table(Capture30SecondsLongQueriesTable). 
+
+Once we create this store proc, we can schedule it to run every 5 mins so data from extended file will be saved on our table.
+
+```sql
+
+USE DBA
+GO
+
+CREATE PROCEDURE LOADXeventTOTABLE
+AS
+BEGIN
+
+Declare  @LastEventTime datetime;
+select @LastEventTime = ISNULL(max(EventTime), '2025-01-01')
+from DBA.dbo.Capture30SecondsLongQueriesTable 
+
+INSERT INTO DBA.dbo.Capture30SecondsLongQueriesTable 
+(
+    EventName,
+    DurationSeconds,
+    Sqltext,
+    ClientAppName,
+    ClientHostName,
+    DatabaseName,
+    LoginName,
+    EventTime
+)
+SELECT
+    event_data.value('(/event/@name)[1]', 'nvarchar(50)') AS EventName,
+    event_data.value('(/event/data[@name="duration"]/value)[1]', 'float') / 1000000.0 AS DurationSeconds,
+    event_data.value('(/event/action[@name="sql_text"]/value)[1]', 'nvarchar(max)') AS SqlText,
+    event_data.value('(/event/action[@name="client_app_name"]/value)[1]', 'nvarchar(128)') AS ClientAppName,
+    event_data.value('(/event/action[@name="client_hostname"]/value)[1]', 'nvarchar(128)') AS ClientHostName,
+    event_data.value('(/event/action[@name="database_name"]/value)[1]', 'nvarchar(128)') AS DatabaseName,
+    event_data.value('(/event/action[@name="server_principal_name"]/value)[1]', 'nvarchar(128)') AS LoginName,
+    event_data.value('(/event/@timestamp)[1]', 'datetime') AS EventTime
+FROM (
+	select convert (XML, event_data) as event_data
+	from sys.fn_xe_file_target_read_file
+		   ( '\\ANAS_PC\anas\extendedEvent\capture30LongQuery*.xel',  /*👉 make sure to update the path with * */
+			NULL,    NULL,      NULL )) as X
+			where event_data.value ('(event/@timestamp)[1]',  'datetime') > @LastEventTime;
+END
+
+
+```
+**Notes:**
+-> Note: make sure to put the extended event file name here and also put * after the name so it dinamically capture other extended file as fills up.  
+
+
+
+##  Step 6: Create the SQl job that runs every 5 mins for the procedure we created earlier.
+
+this will run to upload extended event files to the table in every 5 mins
+
+**Notes:**
+-> Note: add the following script to the job and schedule it run every 5 mins, name the job as LoadToTable and select DBA database when configuring job step ->   exec [dbo].[LOADXeventTOTABLE] 
+- if dont know how to create the job then simply run the following query  down below which will generate the job script for you.
+
+
+```sql
+
+USE [msdb]
+GO
+
+/****** Object:  Job [loadToTable]    Script Date: 11/15/2025 9:53:05 PM ******/
+BEGIN TRANSACTION
+DECLARE @ReturnCode INT
+SELECT @ReturnCode = 0
+/****** Object:  JobCategory [[Uncategorized (Local)]]    Script Date: 11/15/2025 9:53:05 PM ******/
+IF NOT EXISTS (SELECT name FROM msdb.dbo.syscategories WHERE name=N'[Uncategorized (Local)]' AND category_class=1)
+BEGIN
+EXEC @ReturnCode = msdb.dbo.sp_add_category @class=N'JOB', @type=N'LOCAL', @name=N'[Uncategorized (Local)]'
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+
+END
+
+DECLARE @jobId BINARY(16)
+EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N'loadToTable', 
+		@enabled=1, 
+		@notify_level_eventlog=0, 
+		@notify_level_email=0, 
+		@notify_level_netsend=0, 
+		@notify_level_page=0, 
+		@delete_level=0, 
+		@description=N'No description available.', 
+		@category_name=N'[Uncategorized (Local)]', 
+		@owner_login_name=N'sa', @job_id = @jobId OUTPUT
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [my step]    Script Date: 11/15/2025 9:53:06 PM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'my step', 
+		@step_id=1, 
+		@cmdexec_success_code=0, 
+		@on_success_action=1, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'EXEC [dbo].[LOADXeventTOTABLE];', 
+		@database_name=N'DBA', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+EXEC @ReturnCode = msdb.dbo.sp_update_job @job_id = @jobId, @start_step_id = 1
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+EXEC @ReturnCode = msdb.dbo.sp_add_jobschedule @job_id=@jobId, @name=N'my schedule', 
+		@enabled=1, 
+		@freq_type=4, 
+		@freq_interval=1, 
+		@freq_subday_type=4, 
+		@freq_subday_interval=3, 
+		@freq_relative_interval=0, 
+		@freq_recurrence_factor=0, 
+		@active_start_date=20251115, 
+		@active_end_date=99991231, 
+		@active_start_time=0, 
+		@active_end_time=235959, 
+		@schedule_uid=N'97eeaddf-5f25-44c2-99df-79bf53e8ca31'
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+COMMIT TRANSACTION
+GOTO EndSave
+QuitWithRollback:
+    IF (@@TRANCOUNT > 0) ROLLBACK TRANSACTION
+EndSave:
+GO
+
+
 
 
 ```
