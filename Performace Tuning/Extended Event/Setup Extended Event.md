@@ -25,16 +25,16 @@ ADD EVENT sqlserver.rpc_completed      /*👉 Watch stored procedures that take 
 (
     ACTION
     (
-        sqlserver.client_app_name,                   /*👉 What app ran the query (SSMS, .NET app, etc.) */
-        sqlserver.client_hostname,                   /*👉 What computer sent the query  */
-        sqlserver.database_id,                        /*👉 Database number  */
-        sqlserver.database_name,               /*👉  Database name   */
-        sqlserver.plan_handle,                     /* With this number, you can later open the execution plan */
-        sqlserver.server_principal_name,  /*👉 Login name */
-        sqlserver.session_nt_username,   /*👉Windows username */
-        sqlserver.session_id,                    /*👉 Session number (ticket number) */
-        sqlserver.username,                 /*👉 SQL username */
-        sqlserver.sql_text                    /*👉 The exact SQL text that ran */
+        sqlserver.client_app_name,                       /*👉 What app ran the query (SSMS, .NET app, etc.) */
+        sqlserver.client_hostname,                      /*👉 What computer sent the query  */
+        sqlserver.database_id,                         /*👉 Database number  */
+        sqlserver.database_name,                      /*👉  Database name   */
+        sqlserver.plan_handle,                       /* With this number, you can later open the execution plan */
+        sqlserver.server_principal_name,            /*👉 Login name */
+        sqlserver.session_nt_username,             /*👉Windows username */
+        sqlserver.session_id,                     /*👉 Session number (ticket number) */
+        sqlserver.username,                      /*👉 SQL username */
+        sqlserver.sql_text                      /*👉 The exact SQL text that ran */
     )
     WHERE
     (
@@ -48,15 +48,15 @@ ADD EVENT sqlserver.sql_batch_completed
 (
     ACTION
     (
-        sqlserver.client_app_name,                  /*👉 App running the query */
-        sqlserver.client_hostname,                  /*👉 Computer name */
-        sqlserver.database_id,                       /*👉 Database ID */
-        sqlserver.database_name,              /*👉 Database name */
+        sqlserver.client_app_name,                      /*👉 App running the query */
+        sqlserver.client_hostname,                     /*👉 Computer name */
+        sqlserver.database_id,                        /*👉 Database ID */
+        sqlserver.database_name,                    /*👉 Database name */
         sqlserver.plan_handle,                    /*👉 A special ID that lets you open the execution plan later.*/
-        sqlserver.server_principal_name, /*👉Login name */
-        sqlserver.session_nt_username,  /*👉 Windows username */
-        sqlserver.session_id,                   /*👉 Session number */
-        sqlserver.username,                /*👉SQL user */
+        sqlserver.server_principal_name,         /*👉Login name */
+        sqlserver.session_nt_username,          /*👉 Windows username */
+        sqlserver.session_id,                  /*👉 Session number */
+        sqlserver.username,                   /*👉SQL user */
         sqlserver.sql_text                   /*👉 The SQL text developer or process = ran */
     )
     WHERE
@@ -73,18 +73,18 @@ ADD TARGET  package0.event_file
     SET
         filename = N'\\ANAS_PC\anas\extendedEvent\capture30LongQuery.xel',   /*👉 location where to save the extended event file, makesure put SQL SA account permission to this folder */
         max_file_size = (10),                                               /*👉 Each file can grow to 10 MB */
-        max_rollover_files = 3                                           /*👉 Keep 3 files max then rolls over */
+        max_rollover_files = 3                                             /*👉 Keep 3 files max then rolls over */
 )
 
 WITH
 (
-    MAX_MEMORY = 4096 KB,                                                        /*👉 Memory use by the XE session */
-    EVENT_RETENTION_MODE = ALLOW_SINGLE_EVENT_LOSS, /*👉 If SQL Server is super busy, it’s okay to drop a tiny number of events so the server doesn’t slow down */
-    MAX_DISPATCH_LATENCY = 60 SECONDS,   /* 👉 server waits 60 second before writting those logs to data file */
-    MAX_EVENT_SIZE = 0 KB,                               /* 👉 Setting 0 means, we let sql manage it so it doesnt break */
-    MEMORY_PARTITION_MODE = NONE,      /*👉 Do NOT divide the XE memory */
-    TRACK_CAUSALITY = OFF,                        /* 👉 We are NOT linking events together */
-    STARTUP_STATE = ON                              /* 👉 If the SQL Server restarts, it automatically start*/
+    MAX_MEMORY = 4096 KB,                             /*👉 Memory use by the XE session */
+    EVENT_RETENTION_MODE = ALLOW_SINGLE_EVENT_LOSS,  /*👉 If SQL Server is super busy, it’s okay to drop a tiny number of events so the server doesn’t slow down */
+    MAX_DISPATCH_LATENCY = 60 SECONDS,              /* 👉 server waits 60 second before writting those logs to data file */
+    MAX_EVENT_SIZE = 0 KB,                         /* 👉 Setting 0 means, we let sql manage it so it doesnt break */
+    MEMORY_PARTITION_MODE = NONE,                 /*👉 Do NOT divide the XE memory */
+    TRACK_CAUSALITY = OFF,                       /* 👉 We are NOT linking events together */
+    STARTUP_STATE = ON                          /* 👉 If the SQL Server restarts, it automatically start*/
 );
 GO
 
