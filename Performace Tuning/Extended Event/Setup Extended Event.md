@@ -249,7 +249,7 @@ end
 In this way we can capture any long query and do query tuning as needed for those long running query.
 
 ## Google Drive
-[Google Drive Notes : extended Event Setup](https://docs.google.com/document/d/11Hq9WW8hcnbiI5aux144dF5ZbOWwO6shx2ptFRVTE0g/edit?tab=t.0)
+[Google Drive Notes : Extended Event Setup](https://docs.google.com/document/d/1FgF6hGR9dHWr_fG2SxMHb6jtwO9LCM1MW6szVg-wcX8/edit?tab=t.0)
 
 
 
