@@ -161,7 +161,7 @@ where S.name = 'capture30LongQuery'   /* 👉 our extended event's name */
 ```
 
 
-##  Step 5: Create the store proc that will be resposnbible to tranfering data to table(Capture30SecondsLongQueriesTable). 
+##  Step 5: Create the store proc that will be responsible for transferring data to the table(Capture30SecondsLongQueriesTable).	 
 
 Once we create this store proc, we can schedule it to run every 5 mins so data from extended file will be saved on our table.
 
