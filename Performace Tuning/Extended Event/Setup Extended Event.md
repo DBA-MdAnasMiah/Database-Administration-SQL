@@ -245,7 +245,8 @@ end
 
 ## Summary
 
-- We created a extended event that captures any long running query(30 seconds) that store those information into a table and 7 days older data get remove from those table timely manner.
+- We created a extended event that captures any long running query(30 seconds) that store those information into a table and 7 days older data get remove from those table timely manner. <br>
+In this way we can capture any long query and do query tuning as needed for those long running query.
 
 ## Google Drive
 [Google Drive Notes : extended Event Setup](https://docs.google.com/document/d/11Hq9WW8hcnbiI5aux144dF5ZbOWwO6shx2ptFRVTE0g/edit?tab=t.0)
