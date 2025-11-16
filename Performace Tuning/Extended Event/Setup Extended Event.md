@@ -114,7 +114,7 @@ ALTER EVENT SESSION [capture30LongQuery] ON SERVER STATE = START;
 
 ## Step 3: Create a table in DBA database.
 
-the purpose of this table is that we want to store any information from our extended event that we generated.
+The purpose of this table is that we want to store any information from our extended event file that we generated to our newly created table.
 
 ```sql
 
