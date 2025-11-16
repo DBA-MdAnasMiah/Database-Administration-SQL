@@ -146,11 +146,8 @@ CREATE TABLE DBA.dbo.Capture30SecondsLongQueriesTable
 
 ## Step 4: Check the path where we created the store proc
 
-This script out the output for all database backup excluding 4 system databases
 
 ```sql
-
-/* ===============   Step 4: check wherethe extended event file saved ============ */
 
 USE MASTER
 SELECT
