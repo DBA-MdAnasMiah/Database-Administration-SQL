@@ -21,7 +21,8 @@ USE [DBA] --> place your own database here, in our case we are using the DBA dat
 
 ```sql
 use AdventureWorks2019 --> your database name goes here
-select * from INFORMATION_SCHEMA.tables  --> information_schema has all the table information/built-in system view that lists all tables in the database.
+select * from INFORMATION_SCHEMA.tables  /* information_schema has all the table 
+                                            information/built-in system view that lists all tables in the database. */
 where TABLE_TYPE = 'Base table' --> The 'Base table' return only real physical tables, not views.
 ```
 
