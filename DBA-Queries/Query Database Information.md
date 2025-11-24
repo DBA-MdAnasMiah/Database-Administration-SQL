@@ -47,6 +47,19 @@ JOIN sys.schemas AS ss
 ```
 
 
+
+### To check how many user tables. system tables, views , etc
+
+```sql
+Select 
+    type_desc
+    ,Count(*) as CNT
+From sys.objects
+Group by type_desc
+Order by 2 desc  
+```
+
+
 ## Google Drive
 [Google Drive Notes : xyz](https:linkgoeshere)
 
