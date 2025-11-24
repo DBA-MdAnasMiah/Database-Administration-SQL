@@ -47,43 +47,8 @@ JOIN sys.schemas AS ss
 ```
 
 
-**Notes:**
-- must have fullbackup earlier
-- Essential for point-in-time recovery.
-- Need to have 'with recovery' to bring back database online
-
----
-
-
-## To restore differential backup 
-
-to restore differencial backup, we need to have the database in restoring state earlier.
-
-```sql
-
-RESTORE DATABASE [Datawarehouse]
-FROM DISK = N'D:\backup\datawarehouse_diff.bak' -- must have accurate path
-WITH RECOVERY,
-STATS = 10;
-
-```
-
-
-## Summary
-
-- **WITH NORECOVERY**: Keeps the database in restoring mode. Allows more backups (like differential or log) to be restored.Use this for all restores before the final one.
-- **WITH RECOVERY**:Brings the database online and ready to use. No more backups can be restored after this. Use this for the last restore step.
-
-`RECOVERY → Finish and bring online` <br>
-`NORECOVERY → Keep restoring`
-
-First, restore the full backup and keep it in restoring mode - WITH NORECOVERY.
-Next, restore the differential backup if you have one - WITH NORECOVERY.
-Finally, restore the log backup and use WITH RECOVERY to make the database ready to use.
-
-
 ## Google Drive
-[Google Drive Notes : Restore](https://docs.google.com/document/d/1pNMo2O8gcfVnmWUz7CUNayFCvlc6lQzvt-mkI7haPbM/edit?tab=t.0)
+[Google Drive Notes : xyz](https:linkgoeshere)
 
 
 
