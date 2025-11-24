@@ -6,7 +6,7 @@
 
 
 
-# In this page we will use query to retrive information details about database
+## In this page we will use query to retrive information details about database
 
 ---
 
