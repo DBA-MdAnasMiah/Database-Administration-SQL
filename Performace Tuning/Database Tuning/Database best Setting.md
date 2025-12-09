@@ -222,7 +222,7 @@ Note: keep **min memory** default.
 
 ---
 
-# 🎉 SQL Server is now optimized and production-ready!
+
 
 
 
