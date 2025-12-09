@@ -226,6 +226,10 @@ Note: keep **min memory** default.
 ---
 
 
+## Google Drive
+[Google Drive Notes : Database Best Settings](https://docs.google.com/document/d/1427v8ZH-i03cehsf8C95uEl2O4WJsg9onG1mgyv3OSo/edit?tab=t.0)
+
+
 
 
 
