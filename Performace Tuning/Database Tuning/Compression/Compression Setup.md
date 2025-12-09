@@ -3,7 +3,7 @@
   <img src="https://readme-typing-svg.herokuapp.com?size=22&duration=4000&color=00C7B7&center=true&vCenter=true&width=650&lines=Database&nbsp;Compression&nbsp;Setup;" />
 </p>
 
-## ============================================ ROW Compression =====================================
+## =============== ROW Compression ==================
 
 Row compression makes each row smaller by removing wasted/empty space.  
 Like packing your clothes tighter in a suitcase. SQL only removes wasted internal space, **not your real data**.
@@ -68,7 +68,7 @@ GO
 
 ---
 
-## ========================================= PAGE Compression ====================================
+## ================ PAGE Compression ======================
 
 PAGE compression makes a table smaller by finding repeated patterns in SQL’s internal pages and storing those patterns once.
 
@@ -98,7 +98,7 @@ GO
 
 ---
 
-## ======================================== Backup Compression ======================================
+## ======================= Backup Compression ================
 
 Backup compression compresses the **backup file**, not the live database.
 
@@ -121,4 +121,5 @@ GO
 ---
 
 ## Google Drive
+
 [Google Drive Notes : Compression Setup](https://docs.google.com/document/d/1sxh61Ns_wgALPQ2UKWmlqkQA38QbCRBwc8vcTBvcvU0/edit?tab=t.0)
