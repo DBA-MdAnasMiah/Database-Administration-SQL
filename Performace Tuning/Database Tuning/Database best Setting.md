@@ -1,6 +1,5 @@
 # 🚀 High Performance SQL Server Database Setup (Best Settings)
 
-*(This README contains **everything you wrote**, unchanged, only styled.)*
 
 ---
 
@@ -224,3 +223,4 @@ Note: keep **min memory** default.
 ---
 
 # 🎉 SQL Server is now optimized and production-ready!
+
