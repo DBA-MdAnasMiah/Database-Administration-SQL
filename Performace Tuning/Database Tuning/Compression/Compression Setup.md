@@ -3,7 +3,7 @@
   <img src="https://readme-typing-svg.herokuapp.com?size=22&duration=4000&color=00C7B7&center=true&vCenter=true&width=650&lines=Database&nbsp;Compression&nbsp;Setup;" />
 </p>
 
-## =============== ROW Compression ==================
+## ==================== ROW Compression ==================
 
 Row compression makes each row smaller by removing wasted/empty space.  
 Like packing your clothes tighter in a suitcase. SQL only removes wasted internal space, **not your real data**.
@@ -123,3 +123,4 @@ GO
 ## Google Drive
 
 [Google Drive Notes : Compression Setup](https://docs.google.com/document/d/1sxh61Ns_wgALPQ2UKWmlqkQA38QbCRBwc8vcTBvcvU0/edit?tab=t.0)
+
