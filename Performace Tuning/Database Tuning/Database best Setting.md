@@ -147,9 +147,9 @@ AUTO_SHRINK ON →
 MaxDOP = how many CPUs a query can use.
 
 Best practice:  
-- 4 cores → MaxDOP 4  
-- 8 cores → MaxDOP 8  
+- > 4 cores → MaxDOP 4  
 - > 8 cores → MaxDOP 8  
+  
 
 ```sql
 EXEC sys.sp_configure 'show advanced options', 1;
@@ -223,4 +223,5 @@ Note: keep **min memory** default.
 ---
 
 # 🎉 SQL Server is now optimized and production-ready!
+
 
