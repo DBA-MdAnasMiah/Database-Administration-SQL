@@ -1,4 +1,7 @@
-# 🚀 High Performance SQL Server Database Setup (Best Settings)
+
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?size=22&duration=4000&color=00C7B7&center=true&vCenter=true&width=650&lines=High&nbsp;Performance&nbsp;SQL&nbsp;Server&nbsp;Database&nbsp;Setup ;" />
+</p>
 
 
 ---
@@ -221,6 +224,7 @@ WHERE name IN ('max server memory (MB)', 'min server memory (MB)');
 Note: keep **min memory** default.
 
 ---
+
 
 
 
