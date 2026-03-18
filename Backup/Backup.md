@@ -72,6 +72,17 @@ from sys.databases where database_id > 4
 ```
 
 
+```sql
+
+select
+'BACKUP DATABASE ['+name+'] TO  DISK = N''B:\Anas_PC$DATACENTER\Events\'+name+'_FULL_'+format(getdate(), 'MM_dd_yyyy')+'.bak'' WITH compression,  STATS = 10'
+from sys.databases
+where database_id > 4
+
+```
+
+
+
 ##  To check if the last backup with 'copy only' or not 
 
 This Script will show you if the last backup had copy only option selected
