@@ -75,7 +75,8 @@ from sys.databases where database_id > 4
 ```sql
 
 select
-'BACKUP DATABASE ['+name+'] TO  DISK = N''B:\Anas_PC$DATACENTER\Events\'+name+'_FULL_'+format(getdate(), 'MM_dd_yyyy')+'.bak'' WITH compression,  STATS = 10'
+'BACKUP DATABASE ['+name+'] TO  DISK = N''B:\Anas_PC$DATACENTER\Events\'+name+'_FULL_'+format(getdate(), 'MM_dd_yyyy')+'.bak''
+WITH compression,  STATS = 10'
 from sys.databases
 where database_id > 4
 
