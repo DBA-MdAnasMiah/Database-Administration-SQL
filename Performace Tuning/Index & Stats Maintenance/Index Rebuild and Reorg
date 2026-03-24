@@ -1,0 +1,33 @@
+-- Step 1: Download the ola maintance script and execute it.
+-- Step 2: create a job called 'IndexOptimize - USER_DATABASES'
+        -- add the following code on the job and schedule it job to run friday every week at 10:00 pm.
+        EXEC dbo.IndexOptimize
+            @Databases = 'USER_DATABASES',
+            @FragmentationLevel1 = 30,
+            @FragmentationLevel2 = 50,
+            @FragmentationMedium = 'INDEX_REORGANIZE',
+            @FragmentationHigh = 'INDEX_REBUILD_ONLINE',
+            @UpdateStatistics = 'ALL',
+            @OnlyModifiedStatistics = 'Y',
+            @MaxDOP = 2,
+            @MinNumberOfPages = 1000,
+            @TimeLimit = 172800,
+            @LogToTable = 'Y';
+
+
+--Step 3: create a hard stop maintance job for business hours
+-- schedule it to run every week at 11:50 pm
+        declare @job sysname = 'IndexOptimize - USER_DATABASES';
+
+        -- if job is currently running, stop it immediately
+        if exists (
+            select *
+            from msdb.dbo.sysjobactivity a
+            join msdb.dbo.sysjobs b 
+                on b.job_id = a.job_id
+            where b.name = @job
+            and a.session_id = (select max(session_id) from msdb.dbo.sysjobactivity)
+            and a.start_execution_date is not null
+            and a.stop_execution_date is null
+        )
+            exec msdb.dbo.sp_stop_job @job_name = @job;
