@@ -15,7 +15,7 @@
             @LogToTable = 'Y';
 
 
---Step 3: create a hard stop maintance job for business hours
+--Step 3: create a hard stop maintance job for business hours (this will prevent index/stats job running on business hour)
 -- schedule it to run every week at 11:50 pm
         declare @job sysname = 'IndexOptimize - USER_DATABASES';
 
