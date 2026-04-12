@@ -8,12 +8,11 @@
 # Query Store Setup
 The purpose of query store to capture and store historical data for queries, execution plans, statistics and used as first point of reference for troubleshooting long running queries, performance related issues.
 ## Steps
+Step 1: use your desire database.
 
 
 ```sql
-BACKUP DATABASE [your-db] 
-TO DISK = N'D:\SQL-backup\your-db-backup-10-25-2025.bak' 
-WITH NOFORMAT, NOINIT, NAME = N'test-db-Full Database Backup', SKIP, STATS = 10, compression;
+USE AdventureWorks2019
 ```
 
 ### Options:
