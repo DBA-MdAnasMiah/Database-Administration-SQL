@@ -154,12 +154,17 @@ go
 
 Step 1: Check query Store status
 ```sql
-
-Step 1: Check query Store status
-
-
+use adventureworks2019
+select 
+    actual_state_desc,
+    desired_state_desc,
+    current_storage_size_mb,
+    max_storage_size_mb,
+    readonly_reason
+from sys.database_query_store_options;
 
 ```
+
 Step 1: Check query Store status in details
 
 ```sql
