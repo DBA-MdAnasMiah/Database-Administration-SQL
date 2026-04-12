@@ -58,7 +58,7 @@ Three Options are there:
 
 ## Cleanup old queries from QueryStore
 
-Step 1:
+Step 1: Cleanup old data from queryStore that is older than 7 days
 
 ```sql
 -- cleanup old/stale queries (7 days)
@@ -86,7 +86,7 @@ This allows --> If Query Store gets too big, automatically clean up old data to 
 
 ```
 
-Step 3: You can remove a sppecific query from queryStore to cleanup(optional) or exetuion plan or statistices for a plan
+Step 3: You can remove a specific query from queryStore to cleanup(optional) or execution plan or statistics for a plan
 
 ```sql
 -- Remove a specific query from query store history
