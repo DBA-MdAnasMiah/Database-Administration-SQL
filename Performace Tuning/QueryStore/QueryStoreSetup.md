@@ -9,19 +9,40 @@
 The purpose of query store to capture and store historical data for queries, execution plans, statistics and used as first point of reference for troubleshooting long running queries, performance related issues.
 ## Steps
 Step 1: use your desire database.
-
-
 ```sql
 USE AdventureWorks2019
 ```
 
 Step 2: enable query store
-
 ```sql
 alter database adventureworks2019 
 set query_store = on;
+```
+Step 3: enable query store to run read_write mode (this allows to actively captures data)
+ 
+ ```sql
+alter database adventureworks2019 
+set query_store (operation_mode = read_write);
 go
 ```
+Step 4: Increasing the size(production friendly)
+
+ ```sql
+alter database adventureworks2019  
+set query_store (max_storage_size_mb = 2000);
+ ```
+
+Step 5: set collection interval to 30 mins (default is 60 minutes)
+
+ ```sql
+alter database adventureworks2019 
+set query_store (interval_length_minutes = 30);
+go
+ ```
+
+
+
+
 ---
 
 
