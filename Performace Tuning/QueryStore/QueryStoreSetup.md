@@ -40,7 +40,17 @@ set query_store (interval_length_minutes = 30);
 go
  ```
 
-
+Step 6: Change capture mode to auto or all
+```sql
+alter database adventureworks2019   
+set query_store (query_capture_mode = auto) 
+/*
+Three Options are there:
+	set query_store (query_capture_mode = all);      --> Capture all queries information, Everything (heavy)
+	set query_store (query_capture_mode = auto)  --> Captures only important qeuries, Smart capture (recommended) 
+	set query_store (query_capture_mode = auto)  --> Capture Nothing
+*/
+```
 
 
 ---
