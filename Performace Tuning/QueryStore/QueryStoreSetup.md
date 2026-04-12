@@ -103,6 +103,16 @@ exec sp_query_store_reset_exec_stats 3;
 ```
 
 
+Step 4: you can clearup entire query store in one go.
+
+```sql
+
+alter database adventureworks2019 
+set query_store clear;
+
+--Note: this clelar queryStore entirely (use carefully)
+```
+
 ---
 
 ## Save QueryStore in Disk
@@ -140,81 +150,99 @@ where database_id > 4
 
 
 
-##  To check if the last backup with 'copy only' or not 
+##  Check all queries from queryStore
 
-This Script will show you if the last backup had copy only option selected
+This query out all the query inside the queryStore.
 
 ```sql
-
-
-SELECT TOP 1
-    bs.database_name,
-    bs.backup_start_date,
-    bs.backup_finish_date,
-    bs.type AS backup_type,       -- D = full, I = diff, L = log
-    bs.is_copy_only,              -- 1 = COPY_ONLY, 0 = normal
-    CASE 
-        WHEN bs.is_copy_only = 1 THEN 'COPY_ONLY Backup'
-        ELSE 'Normal Backup'
-    END AS CopyOnlyStatus,
-    bmf.physical_device_name AS BackupFile
-FROM msdb.dbo.backupset bs
-JOIN msdb.dbo.backupmediafamily bmf
-    ON bs.media_set_id = bmf.media_set_id
-WHERE bs.database_name = 'AdventureWaorks2019'
-ORDER BY bs.backup_finish_date DESC;
+use adventureworks2019
+go
+select 
+    txt.query_text_id,
+    txt.query_sql_text,
+    pl.plan_id,
+    qry.*
+from sys.query_store_plan as pl
+join sys.query_store_query as qry
+    on pl.query_id = qry.query_id
+join sys.query_store_query_text as txt
+    on qry.query_text_id = txt.query_text_id;
+go
 
 ```
 
 
 
-##  To check if last the backup had compression or not
+##  Check QueryStore Options
 
-This Script will show you if the last backup had copy only option selected
-
+Step 1: Check query Store status
 ```sql
 
+Step 1: Check query Store status
 
-SELECT
-    bs.database_name,
-    bs.backup_finish_date,
-    bs.backup_size,
-    bs.compressed_backup_size,
-    CASE
-        WHEN bs.compressed_backup_size < bs.backup_size THEN 'Compressed'
-        ELSE 'Not Compressed'
-    END AS CompressionStatus,
-    bmf.physical_device_name
-FROM msdb.dbo.backupset bs
-JOIN msdb.dbo.backupmediafamily bmf
-    ON bs.media_set_id = bmf.media_set_id
-ORDER BY bs.backup_finish_date DESC;
 
 
 ```
+Step 1: Check query Store status in details
+
+```sql
+-- Shows Query Store settings for this database
+-- (like ON/OFF, size limit, cleanup rules, capture mode, etc.)
+select * from sys.database_query_store_options;
 
 
-##  I have created an app called 'SIMPLE/EASY backup software'
-
-When running this, it will take backup for you.
-
-- **Download**: [sql_connect-v5.ps1](https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/blob/main/Backup/MySoftwares/sql_connect-v5.ps1)
-  
+-- Shows environment/settings used when queries run
+-- (like SET options, ANSI settings, etc. — helps explain why same query behaves differently)
+select * from sys.query_context_settings;
 
 
+-- Shows execution plans used by queries
+-- (a plan = how SQL Server decides to run a query)
+select * from sys.query_store_plan;
 
 
+-- Shows list of queries stored in Query Store
+-- (each query gets an internal ID here)
+select * from sys.query_store_query;
+
+
+-- Shows the actual SQL text (the real query you wrote)
+-- (because sys.query_store_query only has IDs, not full text)
+select * from sys.query_store_query_text;
+
+
+-- Shows performance stats for queries
+-- (like CPU time, duration, reads, executions)
+select * from sys.query_store_runtime_stats;
+
+
+-- Shows time intervals for the stats
+-- (breaks performance data into time windows like hourly)
+select * from sys.query_store_runtime_stats_interval;
+
+
+/*
+
+Think of Query Store like a performance tracking system:
+		query_store_query_text →  What was the query?
+		query_store_query →  Query ID
+		query_store_plan →  How SQL ran it
+		runtime_stats →  How fast/slow it was
+		runtime_stats_interval →When it ran
+		context_settings →  Environment/settings
+		database_query_store_options → Configuration
+
+*/
+
+
+
+```
 
 ## Summary
-
-- **Full Backup**: Complete backup of a database.  
-- **Transaction Log Backup**: Incremental changes; must follow full backup and captures the small chnages over time 
-- **Differential Backup**: All changes since last full backup; combines multiple logs.  
-
-💡 **Tip:** Make sure to test your backups and restores to ensure reliability.
+Query Store is a tracker for your SQL queries. It keeps a record of how queries run, shows which ones are slow, and helps you understand what’s happening behind the scenes. With this information, you can quickly find problems and fix performance issues without guessing.
 
 ## Google Drive
-[Google Drive Notes : Backup](https://docs.google.com/document/d/11Hq9WW8hcnbiI5aux144dF5ZbOWwO6shx2ptFRVTE0g/edit?tab=t.0)
+[Google Drive Notes : Query Store]([https://docs.google.com/document/d/11Hq9WW8hcnbiI5aux144dF5ZbOWwO6shx2ptFRVTE0g/edit?tab=t.0](https://docs.google.com/document/d/16Z4kZ0FCqOSNa6MKwYqgyiqHj5PCLkQDM82DjyDiJkQ/edit?tab=t.0))
 
 
 
