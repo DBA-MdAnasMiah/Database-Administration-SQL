@@ -86,22 +86,34 @@ This allows --> If Query Store gets too big, automatically clean up old data to 
 
 ```
 
----
-
-## Differential Backup
-
-Differential backups capture **all changes since the last full backup**, allowing you to combine multiple transaction logs into a single backup file.
+Step 3: You can remove a sppecific query from queryStore to cleanup(optional) or exetuion plan or statistices for a plan
 
 ```sql
+-- Remove a specific query from query store history
+exec sp_query_store_remove_query 136;
 
-BACKUP DATABASE [anas] TO  DISK = N'D:\SQL-backup\anas-diff-2025-10-25.bak' 
-WITH  DIFFERENTIAL ,STATS = 10, compression;
+-- Remove a specific execution plan
+exec sp_query_store_remove_plan 3;
+
+
+-- Reset execution statistics for a plan
+exec sp_query_store_reset_exec_stats 3;
+
+
 ```
-**Notes:**
-- Requires a full backup to restore.  
-- Useful for reducing restore time compared to restoring multiple transaction log backups.
+
 
 ---
+
+## Save QueryStore in Disk
+
+This allow query store to save into disk.
+```sql
+
+-- flush in-memory data to disk
+exec sp_query_store_flush_db;
+/* Take all Query Store data that is currently in memory (RAM) and save it to disk right now */
+```
 
 
 ## Script out all database full backup
