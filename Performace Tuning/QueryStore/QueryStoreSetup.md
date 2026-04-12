@@ -242,7 +242,7 @@ Think of Query Store like a performance tracking system:
 Query Store is a tracker for your SQL queries. It keeps a record of how queries run, shows which ones are slow, and helps you understand what’s happening behind the scenes. With this information, you can quickly find problems and fix performance issues without guessing.
 
 ## Google Drive
-[Google Drive Notes : QueryStore Setup]([https://docs.google.com/document/d/11Hq9WW8hcnbiI5aux144dF5ZbOWwO6shx2ptFRVTE0g/edit?tab=t.0](https://docs.google.com/document/d/16Z4kZ0FCqOSNa6MKwYqgyiqHj5PCLkQDM82DjyDiJkQ/edit?tab=t.0))]
+[Google Drive Notes : QueryStore](https://docs.google.com/document/d/16Z4kZ0FCqOSNa6MKwYqgyiqHj5PCLkQDM82DjyDiJkQ/edit?tab=t.0)
 
 
 
