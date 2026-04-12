@@ -14,7 +14,6 @@ Step 1: use your desire database.
 ```sql
 USE AdventureWorks2019
 ```
----
 
 Step 2: enable query store
 
