@@ -46,19 +46,35 @@ go
 ---
 
 
-## Transaction Log Backup
+## Cleanup old queries from QueryStore
 
-Transaction log backups are **incremental backups**. They store all changes and modification since the last backup and require a **full backup first** for recovery.
+Step 1:
 
 ```sql
-BACKUP LOG [anas] 
-TO DISK = N'D:\SQL-backup\your-db-11-25-2025.trn' with STATS = 10, compression;
+-- cleanup old/stale queries (7 days)
+alter database adventureworks2019   
+set query_store (cleanup_policy = 
+(stale_query_threshold_days = 7));
+
+--Note: this cleaup query store so it doesnt grow too big or has storage issues.
 
 ```
 
-**Notes:**
-- Only valid if a full backup exists.  
-- Essential for point-in-time recovery.
+Step 2: enable automatic size-based cleanup.
+
+```sql
+alter database adventureworks2019   
+set query_store (size_based_cleanup_mode = auto);
+
+/*
+This allows --> If Query Store gets too big, automatically clean up old data to make space
+                What SIZE_BASED_CLEANUP_MODE = AUTO does
+                  --> SQL Server monitors Query Store size
+                  --> When it hits a limit → it automatically deletes old/less useful data
+                  --> You don’t need to manually clean it
+*/
+
+```
 
 ---
 
