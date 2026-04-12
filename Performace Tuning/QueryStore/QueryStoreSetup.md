@@ -14,15 +14,17 @@ Step 1: use your desire database.
 ```sql
 USE AdventureWorks2019
 ```
-
-### Options:
-- **NOFORMAT**: Does not delete existing backups in the destination.  
-- **NOINIT**: Prevents overwriting old backups in the file.  
-- **NAME**: Metadata saved in SQL Server to identify this backup.  
-- **SKIP**: Ignores certain safety checks. Allows backup even if file was created for a different database.  
-- **STATS = 10**: Shows progress in 10% increments.
-
 ---
+
+Step 2: enable query store
+
+```sql
+alter database adventureworks2019 
+set query_store = on;
+go
+```
+---
+
 
 ## Transaction Log Backup
 
