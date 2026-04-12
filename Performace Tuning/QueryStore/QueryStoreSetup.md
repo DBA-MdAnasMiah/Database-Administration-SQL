@@ -103,7 +103,7 @@ exec sp_query_store_reset_exec_stats 3;
 ```
 
 
-Step 4: you can clearup entire query store in one go.
+Step 4: you can cleanup entire query store in one go.
 
 ```sql
 
