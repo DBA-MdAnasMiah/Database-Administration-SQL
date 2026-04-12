@@ -6,11 +6,9 @@
 
 
 # Query Store Setup
+The purpose of query store to capture and store historical data for queries, execution plans, statistics and used as first point of reference for troubleshooting long running queries, performance related issues.
+## Steps
 
-
-## Full Backup
-
-The full backup is the **main** / **primary** backup that required for restoring the database.  
 
 ```sql
 BACKUP DATABASE [your-db] 
