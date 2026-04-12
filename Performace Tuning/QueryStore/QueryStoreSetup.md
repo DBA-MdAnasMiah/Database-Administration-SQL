@@ -7,7 +7,6 @@
 
 # Query Store Setup
 
----
 
 ## Full Backup
 
