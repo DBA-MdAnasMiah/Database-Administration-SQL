@@ -18,7 +18,7 @@ Step 2: enable query store
 alter database adventureworks2019 
 set query_store = on;
 ```
-Step 3: enable query store to run read_write mode (this allows to actively captures data)
+Step 3: enable query store to run read_write mode (this allows to actively capture data)
  
  ```sql
 alter database adventureworks2019 
