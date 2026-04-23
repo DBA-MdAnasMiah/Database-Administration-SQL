@@ -57,7 +57,7 @@
 
 >  Configuration is easiest when all servers are in the **same domain**.
 
-**Service Account** — create on both servers:
+**Service Account** — create or have your service accounts ready
 ```
 svc_mirror_account
 ```
