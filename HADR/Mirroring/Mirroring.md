@@ -301,7 +301,7 @@ How far the mirror is lagging behind the principal.
 | 3 | Service accounts not granted CONNECT | Create logins & grant CONNECT on endpoints |
 | 4 | **Encryption mismatch** *(the real killer)* | Recreate both endpoints with matching AES |
 
-Note: if mirroring is setup on same machine then port has to be different.
+Note: if mirroring is setup on same machine then port has to be different. If they are seperate machines then port can be same for both.
 ---
 
 ### Fix 1 — Use IP Address, Not Hostname
