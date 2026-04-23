@@ -226,7 +226,9 @@ ALTER DATABASE [YourDatabaseName]
 SET PARTNER = 'TCP://10.0.0.214:5023';
 
 ```
- note: this doesnt need to be set like this because the GUI does it back behind the scena but incase gui fails to do so, we can run this query.
+>  note: this doesnt need to be set like this because the GUI does it back behind the scena but incase gui fails to do so, we can run this query.
+
+
 
 ---
 
@@ -305,7 +307,7 @@ How far the mirror is lagging behind the principal.
 | 3 | Service accounts not granted CONNECT | Create logins & grant CONNECT on endpoints |
 | 4 | **Encryption mismatch** *(the real killer)* | Recreate both endpoints with matching AES |
 
- Note: if mirroring is setup on same machine then port has to be different. If they are seperate machines then port can be same for both.
+> if mirroring is setup on same machine then port has to be different. If they are seperate machines then port can be same for both.
 ---
 
 ### Fix 1 — Use IP Address, Not Hostname
