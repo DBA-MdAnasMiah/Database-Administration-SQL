@@ -297,10 +297,11 @@ How far the mirror is lagging behind the principal.
 | # | Problem | Fix |
 |---|---------|-----|
 | 1 | Used `localhost` in TCP address | Use actual IP e.g. `10.0.0.214` |
-| 2 | Both endpoints on same port `5022` | Move mirror to port `5023` |
+| 2 | Both endpoints on same port `5022`  | Move mirror to port `5023` |
 | 3 | Service accounts not granted CONNECT | Create logins & grant CONNECT on endpoints |
 | 4 | **Encryption mismatch** *(the real killer)* | Recreate both endpoints with matching AES |
 
+Note: if mirroring is setup on same machine then port has to be different.
 ---
 
 ### Fix 1 — Use IP Address, Not Hostname
