@@ -1,10 +1,8 @@
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?size=22&duration=4000&color=00C7B7&center=true&vCenter=true&width=650&lines=SQL&nbsp;Server&nbsp;Mirroring;" />
+  <img src="https://readme-typing-svg.herokuapp.com?size=22&duration=4000&color=00C7B7&center=true&vCenter=true&width=650&lines=SQL+Server+Mirroring;" />
 </p>
 
-
 # SQL Server Database Mirroring Setup Guide
-
 
 > Step-by-step guide to configuring SQL Server Database Mirroring with troubleshooting, endpoint setup, and health monitoring.
 
@@ -23,7 +21,7 @@
    └──────┬───────┘              └──────┬───────┘           
           │                             │                   
           └──────────────┬──────────────┘                   
-                        │                                  
+                         │                                  
                   ┌──────▼───────┐                          
                   │   WITNESS    │  <- Optional             
                   │    SERVER    │    (Auto Failover)        
@@ -35,15 +33,16 @@
 
 ## Table of Contents
 
-- [Prerequisites](#-prerequisites)
-- [Step 1 — Environment Setup](#-step-1--environment-setup)
-- [Step 2 — Backup Databases](#-step-2--backup-databases)
-- [Step 3 — Restore on Mirror Server](#-step-3--restore-on-mirror-server)
-- [Step 4 — Configure Mirroring](#-step-4--configure-mirroring)
-- [Step 5 — Health Status](#-step-5--health-status)
-- [Troubleshooting](#-troubleshooting)
-- [Health Metrics Reference](#-health-metrics-reference)
-- [Useful Commands](#-useful-commands)
+- [Prerequisites](#prerequisites)
+- [Step 1 — Environment Setup](#step-1--environment-setup)
+- [Step 2 — Backup Databases](#step-2--backup-databases)
+- [Step 3 — Restore on Mirror Server](#step-3--restore-on-mirror-server)
+- [Step 4 — Configure Endpoints](#step-4--configure-endpoints)
+- [Step 5 — Configure Mirroring](#step-5--configure-mirroring)
+- [Step 6 — Health Status](#step-6--health-status)
+- [Health Metrics Reference](#health-metrics-reference)
+- [Troubleshooting](#troubleshooting)
+- [Useful Commands](#useful-commands)
 
 ---
 
@@ -51,21 +50,21 @@
 
 | Server | Role | Required |
 |--------|------|----------|
-| Principal Server | Primary active database |  Required |
-| Mirror Server | Standby replica |  Required |
-| Witness Server | Arbitrator for automatic failover |  Optional |
+| Principal Server | Primary active database | ✔ Required |
+| Mirror Server | Standby replica | ✔ Required |
+| Witness Server | Arbitrator for automatic failover | ✔ Optional |
 
->  Configuration is easiest when all servers are in the **same domain**.
+> Configuration is easiest when all servers are in the **same domain**.
 
-**Service Account** — create or have your service accounts ready
+**Service Account** — create or have your service accounts ready:
 ```
 svc_mirror_account
 ```
-> Can be a single shared domain account or separate service accounts.
+> Can be a single shared domain account or separate service accounts per server.
 
 ---
 
-##  Step 1 — Environment Setup
+## Step 1 — Environment Setup
 
 ### Enable TCP/IP on ALL Servers
 
@@ -77,13 +76,13 @@ Verify TCP/IP listeners are active:
 SELECT * FROM sys.dm_tcp_listener_states;
 ```
 
->  Returns NULL? Go to **SQL Server Configuration Manager** → **SQL Server Network Configuration** → Enable **TCP/IP**.
+> Returns NULL? Go to **SQL Server Configuration Manager** → **SQL Server Network Configuration** → Enable **TCP/IP**.
 
 ---
 
-##  Step 2 — Backup Databases
+## Step 2 — Backup Databases
 
-Run on the **Principal Server**. Copy-only backups work too.
+Run on the **Principal Server**.
 
 ### Full Backup
 
@@ -119,77 +118,143 @@ FROM DISK = N'C:\Backups\YourDatabaseName_LOG.bak'
 WITH NORECOVERY, STATS = 10;
 ```
 
- The mirror database will show as **"Restoring..."** in SSMS — this is correct!
+> ✔ The mirror database will show as **"Restoring..."** in SSMS — this is correct!
 
 ---
 
-## Step 4 — Configure Mirroring
+## Step 4 — Configure Endpoints
 
+> ⚠️ Endpoints **must exist and be running** on all server instances before mirroring can be configured.
 
+### Create Endpoint — Principal (Port 5022)
+
+```sql
+CREATE ENDPOINT [Mirroring]
+    STATE = STARTED
+    AS TCP (LISTENER_PORT = 5022)
+    FOR DATABASE_MIRRORING (
+        AUTHENTICATION = WINDOWS NEGOTIATE,
+        ENCRYPTION = REQUIRED ALGORITHM AES,
+        ROLE = ALL
+    );
+```
+
+### Create Endpoint — Mirror (Port 5023)
+
+```sql
+CREATE ENDPOINT [Mirroring]
+    STATE = STARTED
+    AS TCP (LISTENER_PORT = 5023)
+    FOR DATABASE_MIRRORING (
+        AUTHENTICATION = WINDOWS NEGOTIATE,
+        ENCRYPTION = REQUIRED ALGORITHM AES,
+        ROLE = ALL
+    );
+```
+
+### Grant CONNECT on Each Endpoint
+
+```sql
+-- On Principal — grant the mirror's service account:
+GRANT CONNECT ON ENDPOINT::[Mirroring] TO [NT Service\MSSQL$TESTINGSERVER];
+
+-- On Mirror — grant the principal's service account:
+GRANT CONNECT ON ENDPOINT::[Mirroring] TO [NT Service\MSSQL$DATACENTER];
+```
+
+### Verify Endpoints Are Running
+
+```sql
+SELECT name, state_desc, port, encryption_algorithm_desc, connection_auth_desc
+FROM sys.database_mirroring_endpoints;
+```
+
+> ✔ Both endpoints should show `STARTED` before moving to Step 5.
+
+---
+
+## Step 5 — Configure Mirroring
+
+### Option A — Via SSMS Wizard
+
+```
 1. In Object Explorer, right-click the database → Properties
 2. Go to the Mirroring page
 3. Click Configure Security
 4. Follow the wizard:
 
+   [Next] → Include Witness?
+            ├── YES → Automatic Failover
+            └── NO  → Manual Failover
+
+   → Select Principal Server  (auto-filled)
+   → Add Mirror Server instance
+   → Add Witness Server instance  (if applicable)
+   → Configure Service Accounts for all three
+
+   → Mirroring Endpoints  (created on each server instance)
+            ├── Principal  TCP://10.0.0.214:5022
+            ├── Mirror     TCP://10.0.0.214:5023
+            └── Witness    TCP://10.0.0.214:5024  (if applicable)
+
+   [Finish] → wizard runs SET PARTNER automatically
 ```
-[Next] → Include Witness?
-         ├── YES → Automatic Failover 
-         └── NO  → Manual Failover
 
-→ Select Principal Server (auto-filled)
-→ Add Mirror Server instance
-→ Add Witness Server instance (if applicable)
-→ Configure Service Accounts for all three
-
-no add mirroring endpoint steps here with the same style that i gave you
-```
-
-
-### Via T-SQL
+### Option B — Via T-SQL
 
 > Run on **Mirror FIRST**, then Principal.
 
 ```sql
+
 -- On MIRROR first:
-ALTER DATABASE [YourDatabaseName]  
-SET PARTNER = 'TCP://10.0.0.214:5022'; -- Your principal IP or device name goes here.
+/* This register our principal's address on the mirror.
+   This puts the mirror in a listening state, ready and waiting for the principal to reach out. */
+ALTER DATABASE [YourDatabaseName]
+SET PARTNER = 'TCP://10.0.0.214:5022';
+
 
 -- On PRINCIPAL second:
+/*This register our mirror's address on the principal.
+  this is what actually kicks off the mirroring process —
+  the principal reaches out to the mirror, they handshake,
+  and the database starts synchronizing in real time */
 ALTER DATABASE [YourDatabaseName]
-SET PARTNER = 'TCP://10.0.0.214:5023'; Your mirror IP or device name goes here.
+SET PARTNER = 'TCP://10.0.0.214:5023';
+
+-- note: this doesnt need to be set like this because the GUI does it back behind the scena but incase gui fails to do so, we can run this query.
 ```
 
 ---
 
-## Step 5 — Health Status
+## Step 6 — Health Status
 
 ### ✔ Success State
 
 ```
-Principal Server:  YourDB (Principal, Synchronized) 
-Mirror Server:     YourDB (Mirror, Synchronized / Restoring) 
+Principal Server:  YourDB (Principal, Synchronized) ✔
+Mirror Server:     YourDB (Mirror, Synchronized / Restoring) ✔
 ```
 
 ### Status Reference
 
 | Status | Meaning |
 |--------|---------|
-| `Principal, Synchronized` |  Live and in sync |
-| `Mirror, Synchronized / Restoring` |  Receiving and applying logs |
+| `Principal, Synchronized` | ✔ Live and in sync |
+| `Mirror, Synchronized / Restoring` | ✔ Receiving and applying logs |
 | `Disconnected` | ✗ Network or service issue |
 | `Suspended` | ⚠️ Mirroring paused manually or due to error |
 
 ---
 
-## 🩺 Health Metrics Reference
+## Health Metrics Reference
 
 ### Unsent Log
 Data waiting on the principal to be sent to the mirror.
 
 | Range | Status |
 |-------|--------|
-| `0 – 100 MB` | Healthy |
-| `Growing GBs` | Log cannot truncate — **disk space risk!** |
+| `0 – 100 MB` | ✔ Healthy |
+| `Growing GBs` | ✗ Log cannot truncate — **disk space risk!** |
 
 > If unchecked, the log file can fill the drive and **stop all database operations**.
 
@@ -200,9 +265,9 @@ Data already transmitted over the network.
 
 | Range | Status |
 |-------|--------|
-| `0 – 200 MB` |  Healthy |
-| `200 – 500 MB` |  Acceptable under peak load |
-| `500 MB – 2 GB` (stable) | Network slowdown warning |
+| `0 – 200 MB` | ✔ Healthy |
+| `200 – 500 MB` | ⚠️ Acceptable under peak load |
+| `500 MB – 2 GB` (stable) | ⚠️ Network slowdown warning |
 | `5 GB+` (growing) | ✗ Network bottleneck or mirror lag |
 
 ---
@@ -222,14 +287,12 @@ How far the mirror is lagging behind the principal.
 
 | Range | Status |
 |-------|--------|
-| `0 – 1 second` | Healthy (sync mode) |
-| `Increasing` |  Mirror falling behind — failover risk |
+| `0 – 1 second` | ✔ Healthy (sync mode) |
+| `Increasing` | ⚠️ Mirror falling behind — failover risk |
 
 ---
 
 ## Troubleshooting
-
-### Common Problems & Fixes
 
 | # | Problem | Fix |
 |---|---------|-----|
@@ -293,33 +356,17 @@ SELECT name, state_desc, encryption_algorithm_desc, connection_auth_desc
 FROM sys.database_mirroring_endpoints;
 ```
 
-Recreate with matching AES encryption.
+Recreate with matching AES encryption — see [Step 4](#step-4--configure-endpoints).
 
-**Principal (Port 5022):**
+---
 
-```sql
-CREATE ENDPOINT Mirroring
-    STATE = STARTED
-    AS TCP (LISTENER_PORT = 5022)
-    FOR DATABASE_MIRRORING (
-        AUTHENTICATION = WINDOWS NEGOTIATE,
-        ENCRYPTION = REQUIRED ALGORITHM AES,
-        ROLE = ALL
-    );
+### Common Error
+
+```
+Connection handshake failed. There is no compatible encryption algorithm. State 22.
 ```
 
-**Mirror (Port 5023):**
-
-```sql
-CREATE ENDPOINT Mirroring
-    STATE = STARTED
-    AS TCP (LISTENER_PORT = 5023)
-    FOR DATABASE_MIRRORING (
-        AUTHENTICATION = WINDOWS NEGOTIATE,
-        ENCRYPTION = REQUIRED ALGORITHM AES,
-        ROLE = ALL
-    );
-```
+> One endpoint is `REQUIRED`, the other is `DISABLED` or using a different algorithm. See [Fix 6](#fix-6--fix-encryption-mismatch).
 
 ---
 
@@ -346,14 +393,6 @@ ALTER DATABASE [YourDatabaseName] SET PARTNER OFF;
 ALTER DATABASE [YourDatabaseName] SET PARTNER FAILOVER;
 ```
 
-### Common Error
-
-```
-Connection handshake failed. There is no compatible encryption algorithm. State 22.
-```
-
-> One endpoint is `REQUIRED`, the other is `DISABLED` or a different algorithm. See [Fix 6](#fix-6--fix-encryption-mismatch).
-
 ---
 
 ## Quick Reference Flow
@@ -370,9 +409,12 @@ Connection handshake failed. There is no compatible encryption algorithm. State 
          │
 5. Restore ──────────► NORECOVERY on Mirror
          │
-6. Configure ────────► Security Wizard in SSMS
+6. Endpoints ────────► CREATE ENDPOINT on Principal + Mirror
+         │              GRANT CONNECT for service accounts
          │
-7. Verify ───────────► Principal, Synchronized 
+7. Configure ────────► Security Wizard in SSMS  or  T-SQL SET PARTNER
+         │
+8. Verify ───────────► Principal, Synchronized ✔
 ```
 
 ---
@@ -384,5 +426,4 @@ Connection handshake failed. There is no compatible encryption algorithm. State 
 ## Google Drive
 [Google Drive Notes : Mirroring](https://docs.google.com/document/d/1uexkx1Rm6sl_CHoepIMffk_YvBakuHIaDzY4HZW4iYI/edit?tab=t.0)
 
-
-
+</div>
