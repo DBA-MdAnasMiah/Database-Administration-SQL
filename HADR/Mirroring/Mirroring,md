@@ -1,0 +1,399 @@
+<div align="center">
+
+```
+███╗   ███╗██╗██████╗ ██████╗  ██████╗ ██████╗ ██╗███╗   ██╗ ██████╗ 
+████╗ ████║██║██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██║████╗  ██║██╔════╝ 
+██╔████╔██║██║██████╔╝██████╔╝██║   ██║██████╔╝██║██╔██╗ ██║██║  ███╗
+██║╚██╔╝██║██║██╔══██╗██╔══██╗██║   ██║██╔══██╗██║██║╚██╗██║██║   ██║
+██║ ╚═╝ ██║██║██║  ██║██║  ██║╚██████╔╝██║  ██║██║██║ ╚████║╚██████╔╝
+╚═╝     ╚═╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝ 
+```
+
+# 🪞 SQL Server Database Mirroring Setup Guide
+
+[![SQL Server](https://img.shields.io/badge/SQL%20Server-2019%2B-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)](https://www.microsoft.com/en-us/sql-server)
+[![Status](https://img.shields.io/badge/Status-SYNCHRONIZED-00C853?style=for-the-badge&logo=checkmarx&logoColor=white)](#)
+[![TCP/IP](https://img.shields.io/badge/Protocol-TCP%2FIP-0078D4?style=for-the-badge&logo=cisco&logoColor=white)](#)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](#)
+
+> **High-availability SQL Server mirroring** — step-by-step setup with troubleshooting, endpoint configuration, and health monitoring.
+
+</div>
+
+---
+
+## 📐 Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     MIRRORING TOPOLOGY                          │
+│                                                                 │
+│    ┌──────────────┐         ┌──────────────┐                   │
+│    │   PRINCIPAL  │◄───────►│    MIRROR    │                   │
+│    │    SERVER    │  TCP/IP │    SERVER    │                   │
+│    │  Port: 5022  │  sync   │  Port: 5023  │                   │
+│    └──────┬───────┘         └──────┬───────┘                   │
+│           │                        │                           │
+│           └──────────┬─────────────┘                           │
+│                      │                                         │
+│               ┌──────▼───────┐                                 │
+│               │   WITNESS    │  ← Optional                     │
+│               │    SERVER    │    (Auto Failover)               │
+│               └──────────────┘                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📋 Table of Contents
+
+- [Prerequisites](#-prerequisites)
+- [Step 1 — Environment Setup](#-step-1--environment-setup)
+- [Step 2 — Backup Databases](#-step-2--backup-databases)
+- [Step 3 — Restore on Mirror Server](#-step-3--restore-on-mirror-server)
+- [Step 4 — Configure Mirroring](#-step-4--configure-mirroring)
+- [Step 5 — Health Status](#-step-5--health-status)
+- [Troubleshooting](#-troubleshooting)
+- [Health Metrics Reference](#-health-metrics-reference)
+- [Useful Commands](#-useful-commands)
+
+---
+
+## ✅ Prerequisites
+
+You will need:
+
+| Server | Role | Required |
+|--------|------|----------|
+| `Principal Server` | Primary active database | ✅ Required |
+| `Mirror Server` | Standby replica | ✅ Required |
+| `Witness Server` | Arbitrator for automatic failover | ⚡ Optional |
+
+> 💡 **Tip:** Configuration is easiest when all servers are in the **same domain**.
+
+### Service Account
+Create a service account on both servers:
+```
+svc_mirror_account
+```
+> This can be a **single domain account** shared across both servers, or two separate accounts.
+
+---
+
+## 🔧 Step 1 — Environment Setup
+
+### 1.1 Enable TCP/IP on ALL Servers
+
+> ⚠️ TCP/IP is **mandatory** for database mirroring. SQL Server sends transaction log records over the network and only supports TCP/IP for this.
+
+Verify TCP/IP listeners are active:
+
+```sql
+SELECT * FROM sys.dm_tcp_listener_states;
+```
+
+> ❌ If this returns `NULL` — TCP/IP is not enabled. Go to **SQL Server Configuration Manager** → **SQL Server Network Configuration** → Enable **TCP/IP**.
+
+---
+
+## 💾 Step 2 — Backup Databases
+
+Run these on the **Principal Server**.
+
+> 📝 Copy-only backups work too, but regular backups are fine.
+
+### Full Backup
+```sql
+BACKUP DATABASE [YourDatabaseName]
+TO DISK = N'C:\Backups\YourDatabaseName_FULL.bak'
+WITH FORMAT, INIT, NAME = N'Full Backup', STATS = 10;
+```
+
+### Log Backup
+```sql
+BACKUP LOG [YourDatabaseName]
+TO DISK = N'C:\Backups\YourDatabaseName_LOG.bak'
+WITH FORMAT, INIT, NAME = N'Log Backup', STATS = 10;
+```
+
+---
+
+## 🔁 Step 3 — Restore on Mirror Server
+
+Restore on the **Mirror Server** using `NORECOVERY` — the database must remain in a **restoring state**.
+
+```sql
+-- Restore Full Backup
+RESTORE DATABASE [YourDatabaseName]
+FROM DISK = N'C:\Backups\YourDatabaseName_FULL.bak'
+WITH NORECOVERY, STATS = 10;
+
+-- Restore Log Backup
+RESTORE LOG [YourDatabaseName]
+FROM DISK = N'C:\Backups\YourDatabaseName_LOG.bak'
+WITH NORECOVERY, STATS = 10;
+```
+
+> ✅ The mirror database should show as **"Restoring..."** in SSMS — this is correct!
+
+---
+
+## ⚙️ Step 4 — Configure Mirroring
+
+### Via SSMS GUI (Recommended)
+
+1. In **Object Explorer**, right-click the database → **Properties**
+2. Navigate to the **Mirroring** page
+3. Click **Configure Security**
+4. Follow the wizard:
+
+```
+Wizard Flow:
+─────────────────────────────────────────────
+[Next] → Include Witness?
+         ├── YES → Automatic Failover  ✅
+         └── NO  → Manual Failover
+         
+→ Select Principal Server (auto-filled)
+→ Add Mirror Server instance
+→ Add Witness Server instance (if applicable)
+→ Configure Service Accounts for all three
+─────────────────────────────────────────────
+```
+
+### Via T-SQL (Manual)
+
+```sql
+-- Run on MIRROR FIRST:
+ALTER DATABASE [YourDatabaseName]
+SET PARTNER = 'TCP://10.0.0.214:5022';
+
+-- Run on PRINCIPAL SECOND:
+ALTER DATABASE [YourDatabaseName]
+SET PARTNER = 'TCP://10.0.0.214:5023';
+```
+
+---
+
+## 📊 Step 5 — Health Status
+
+### 🎉 Success State
+
+```
+Principal Server:   YourDB (Principal, Synchronized) ✅
+Mirror Server:      YourDB (Mirror, Synchronized / Restoring) ✅
+```
+
+### Status Indicators
+
+| Status | Meaning |
+|--------|---------|
+| `Principal, Synchronized` | ✅ All good — principal is live and in sync |
+| `Mirror, Synchronized / Restoring` | ✅ Mirror is receiving and applying logs |
+| `Disconnected` | ❌ Network or service issue |
+| `Suspended` | ⚠️ Mirroring paused manually or due to error |
+
+---
+
+## 🩺 Health Metrics Reference
+
+### Unsent Log
+> Data waiting on the principal to be sent to mirror.
+
+| Range | Status |
+|-------|--------|
+| `0 – 100 MB` | ✅ Healthy |
+| `Growing GBs` | ⚠️ Log cannot truncate — **disk space risk!** |
+
+> ⚠️ If unchecked, this can fill the drive and **stop all database operations**.
+
+---
+
+### Current Sent Log
+> Data already transmitted over the network.
+
+| Range | Status |
+|-------|--------|
+| `0 – 200 MB` | ✅ Healthy |
+| `200 – 500 MB` | ⚡ Acceptable under peak load |
+| `500 MB – 2 GB` (stable) | ⚠️ Network slowdown warning |
+| `5 GB+` (growing) | ❌ Network bottleneck or mirror lag |
+
+---
+
+### Redo Queue
+> Data received by the mirror but not yet applied.
+
+| Range | Status |
+|-------|--------|
+| `0 – 200 MB` | ✅ Healthy |
+| `Growing GBs` | ❌ Mirror server CPU/disk bottleneck |
+
+---
+
+### Time Behind
+> How far the mirror is lagging behind the principal.
+
+| Range | Status |
+|-------|--------|
+| `0 – 1 second` | ✅ Healthy (sync mode) |
+| `Increasing` | ❌ Mirror falling behind — failover risk |
+
+---
+
+## 🛠️ Troubleshooting
+
+### Common Problems & Fixes
+
+| # | Problem | Fix |
+|---|---------|-----|
+| 1 | Used `localhost` in TCP address | Use actual IP e.g. `10.0.0.214` |
+| 2 | Both endpoints on same port `5022` | Move mirror to port `5023` |
+| 3 | Service accounts not granted CONNECT | Create logins & grant CONNECT on endpoints |
+| 4 | **Encryption mismatch** *(the real killer)* | Recreate both endpoints with matching AES encryption |
+
+---
+
+### Fix 1 — Use IP Address
+Always use the actual server IP, never `localhost` or machine name for cross-server mirroring.
+
+---
+
+### Fix 2 — Enable TCP/IP
+In SQL Server Configuration Manager → SQL Server Network Configuration → Enable **TCP/IP**.
+
+---
+
+### Fix 3 — Same Machine? Use Different Ports
+If both instances are on the same machine, assign different ports:
+- Principal: `5022`
+- Mirror: `5023`
+
+---
+
+### Fix 4 — Create Service Account Login
+
+```sql
+-- Check current service account
+SELECT servicename, service_account, status_desc
+FROM sys.dm_server_services;
+
+-- Create the login if missing
+CREATE LOGIN [NT Service\MSSQL$DATACENTER] FROM WINDOWS;
+```
+
+---
+
+### Fix 5 — Grant CONNECT on Mirroring Endpoint
+
+```sql
+-- On Principal:
+GRANT CONNECT ON ENDPOINT::Mirroring TO [NT Service\MSSQL$DATACENTER];
+
+-- On Mirror:
+GRANT CONNECT ON ENDPOINT::Mirroring TO [NT Service\MSSQL$TESTINGSERVER];
+```
+
+---
+
+### Fix 6 — Verify & Fix Encryption Mismatch
+
+Check current encryption settings on both servers:
+
+```sql
+SELECT name, state_desc, encryption_algorithm_desc, connection_auth_desc
+FROM sys.database_mirroring_endpoints;
+```
+
+> ⚠️ If encryption algorithms don't match, drop and recreate the endpoints.
+
+**Recreate on Principal (Port 5022):**
+```sql
+CREATE ENDPOINT Mirroring
+    STATE = STARTED
+    AS TCP (LISTENER_PORT = 5022)
+    FOR DATABASE_MIRRORING (
+        AUTHENTICATION = WINDOWS NEGOTIATE,
+        ENCRYPTION = REQUIRED ALGORITHM AES,
+        ROLE = ALL
+    );
+```
+
+**Recreate on Mirror (Port 5023):**
+```sql
+CREATE ENDPOINT Mirroring
+    STATE = STARTED
+    AS TCP (LISTENER_PORT = 5023)
+    FOR DATABASE_MIRRORING (
+        AUTHENTICATION = WINDOWS NEGOTIATE,
+        ENCRYPTION = REQUIRED ALGORITHM AES,
+        ROLE = ALL
+    );
+```
+
+---
+
+## 📌 Useful Commands
+
+### Read Error Logs
+```sql
+-- Check mirroring errors
+EXEC xp_readerrorlog 0, 1, N'Mirroring';
+
+-- Check login errors
+EXEC xp_readerrorlog 0, 1, N'login';
+```
+
+### Reset / Clear Mirroring
+```sql
+-- Run on BOTH servers to remove mirroring:
+ALTER DATABASE [YourDatabaseName] SET PARTNER OFF;
+```
+
+### Manual Failover
+```sql
+-- Run on PRINCIPAL only:
+ALTER DATABASE [YourDatabaseName] SET PARTNER FAILOVER;
+```
+
+### Common Error to Watch For
+```
+Connection handshake failed. There is no compatible encryption algorithm. State 22.
+```
+> → Endpoints have mismatched encryption. One is `REQUIRED`, the other is `DISABLED` or uses a different algorithm. See [Fix 6](#fix-6--verify--fix-encryption-mismatch).
+
+---
+
+## 🔄 Full Setup Quick Reference
+
+```
+1. Prepare servers (Principal + Mirror + optional Witness)
+       │
+2. Enable TCP/IP on ALL servers
+       │
+3. Create service account (svc_mirror_account)
+       │
+4. Take FULL + LOG backup on Principal
+       │
+5. Restore with NORECOVERY on Mirror
+       │
+6. Configure Security Wizard on Principal (SSMS)
+       │
+7. Verify: Principal, Synchronized ✅
+```
+
+---
+
+<div align="center">
+
+## 🎉 Congratulations!
+### You have successfully configured SQL Server Database Mirroring!
+
+---
+
+*Made with ❤️ | Visit my [GitHub](https://github.com) for more guides*
+
+![SQL Server](https://img.shields.io/badge/SQL%20Server-Database%20Mirroring-CC2927?style=flat-square&logo=microsoftsqlserver)
+![Status](https://img.shields.io/badge/Mirror-SYNCHRONIZED-00C853?style=flat-square)
+
+</div>
