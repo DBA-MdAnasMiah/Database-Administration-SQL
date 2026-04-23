@@ -379,3 +379,8 @@ Connection handshake failed. There is no compatible encryption algorithm. State 
 
 ### You have successfully configured SQL Server Database Mirroring!
 
+## Google Drive
+[Google Drive Notes : Mirroring](https://docs.google.com/document/d/1uexkx1Rm6sl_CHoepIMffk_YvBakuHIaDzY4HZW4iYI/edit?tab=t.0)
+
+
+
