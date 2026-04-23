@@ -61,7 +61,7 @@
 ```
 svc_mirror_account
 ```
-> Can be a single shared domain account or two separate accounts.
+> Can be a single shared domain account or separate service accounts.
 
 ---
 
