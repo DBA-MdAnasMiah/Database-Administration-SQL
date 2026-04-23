@@ -128,6 +128,10 @@ WITH NORECOVERY, STATS = 10;
 
 ### Create Endpoint — Principal (Port 5022)
 
+Manually create the endpoints on both servers via T-SQL first
+Then open the SSMS wizard — it will detect the existing endpoints and use them instead of creating via wizard.
+
+
 ```sql
 CREATE ENDPOINT [Mirroring]
     STATE = STARTED
