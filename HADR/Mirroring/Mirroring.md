@@ -125,11 +125,10 @@ WITH NORECOVERY, STATS = 10;
 
 ## Step 4 — Configure Mirroring
 
-### Via SSMS GUI
 
-1. In **Object Explorer**, right-click the database → **Properties**
-2. Go to the **Mirroring** page
-3. Click **Configure Security**
+1. In Object Explorer, right-click the database → Properties
+2. Go to the Mirroring page
+3. Click Configure Security
 4. Follow the wizard:
 
 ```
@@ -141,7 +140,10 @@ WITH NORECOVERY, STATS = 10;
 → Add Mirror Server instance
 → Add Witness Server instance (if applicable)
 → Configure Service Accounts for all three
+
+no add mirroring endpoint steps here with the same style that i gave you
 ```
+
 
 ### Via T-SQL
 
