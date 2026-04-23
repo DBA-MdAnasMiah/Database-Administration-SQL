@@ -232,7 +232,7 @@ SET PARTNER = 'TCP://10.0.0.214:5023';
 
 ## Step 6 — Health Status
 
-### ✔ Success State
+### Success State
 
 ```
 Principal Server:  YourDB (Principal, Synchronized) ✔
@@ -246,7 +246,7 @@ Mirror Server:     YourDB (Mirror, Synchronized / Restoring) ✔
 | `Principal, Synchronized` | ✔ Live and in sync |
 | `Mirror, Synchronized / Restoring` | ✔ Receiving and applying logs |
 | `Disconnected` | ✗ Network or service issue |
-| `Suspended` | ⚠️ Mirroring paused manually or due to error |
+| `Suspended` |  Mirroring paused manually or due to error |
 
 ---
 
