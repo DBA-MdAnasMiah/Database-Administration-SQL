@@ -65,7 +65,7 @@ svc_mirror_account
 
 ---
 
-## 🔧 Step 1 — Environment Setup
+##  Step 1 — Environment Setup
 
 ### Enable TCP/IP on ALL Servers
 
@@ -354,7 +354,7 @@ Connection handshake failed. There is no compatible encryption algorithm. State 
 
 ---
 
-## 🔄 Quick Reference Flow
+## Quick Reference Flow
 
 ```
 1. Prepare servers ──► Principal + Mirror + optional Witness
@@ -370,14 +370,12 @@ Connection handshake failed. There is no compatible encryption algorithm. State 
          │
 6. Configure ────────► Security Wizard in SSMS
          │
-7. Verify ───────────► Principal, Synchronized ✅
+7. Verify ───────────► Principal, Synchronized ✔ 
 ```
 
 ---
 
 <div align="center">
-
-## 🎉 Congratulations!
 
 ### You have successfully configured SQL Server Database Mirroring!
 
