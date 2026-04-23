@@ -1,4 +1,9 @@
-# 🪞 SQL Server Database Mirroring Setup Guide
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?size=22&duration=4000&color=00C7B7&center=true&vCenter=true&width=650&lines=SQLnbsp;ServerMirroring;" />
+</p>
+
+
+# SQL Server Database Mirroring Setup Guide
 
 [![SQL Server](https://img.shields.io/badge/SQL%20Server-2019%2B-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)](https://www.microsoft.com/en-us/sql-server)
 [![Status](https://img.shields.io/badge/Status-SYNCHRONIZED-00C853?style=for-the-badge&logo=checkmarx&logoColor=white)](#health-status)
@@ -13,26 +18,26 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     MIRRORING TOPOLOGY                      │
-│                                                             │
-│   ┌──────────────┐              ┌──────────────┐           │
-│   │  PRINCIPAL   │◄────────────►│    MIRROR    │           │
-│   │   SERVER     │   TCP/IP     │    SERVER    │           │
-│   │  Port: 5022  │    sync      │  Port: 5023  │           │
-│   └──────┬───────┘              └──────┬───────┘           │
-│          │                             │                   │
-│          └──────────────┬──────────────┘                   │
-│                         │                                  │
-│                  ┌──────▼───────┐                          │
-│                  │   WITNESS    │  <- Optional             │
-│                  │    SERVER    │    (Auto Failover)        │
-│                  └──────────────┘                          │
+                      MIRRORING TOPOLOGY                      
+                                                             
+   ┌──────────────┐              ┌──────────────┐           
+   │  PRINCIPAL   │◄────────────►│    MIRROR    │           
+   │   SERVER     │   TCP/IP     │    SERVER    │           
+   │  Port: 5022  │    sync      │  Port: 5023  │           
+   └──────┬───────┘              └──────┬───────┘           
+          │                             │                   
+          └──────────────┬──────────────┘                   
+                        │                                  
+                  ┌──────▼───────┐                          
+                  │   WITNESS    │  <- Optional             
+                  │    SERVER    │    (Auto Failover)        
+                  └──────────────┘                          
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Prerequisites](#-prerequisites)
 - [Step 1 — Environment Setup](#-step-1--environment-setup)
@@ -46,15 +51,15 @@
 
 ---
 
-## ✅ Prerequisites
+## Prerequisites
 
 | Server | Role | Required |
 |--------|------|----------|
-| Principal Server | Primary active database | ✅ Required |
-| Mirror Server | Standby replica | ✅ Required |
+| Principal Server | Primary active database | ✔ Required |
+| Mirror Server | Standby replica | ✔ Required |
 | Witness Server | Arbitrator for automatic failover | ⚡ Optional |
 
-> 💡 Configuration is easiest when all servers are in the **same domain**.
+>  Configuration is easiest when all servers are in the **same domain**.
 
 **Service Account** — create on both servers:
 ```
@@ -76,11 +81,11 @@ Verify TCP/IP listeners are active:
 SELECT * FROM sys.dm_tcp_listener_states;
 ```
 
-> ❌ Returns NULL? Go to **SQL Server Configuration Manager** → **SQL Server Network Configuration** → Enable **TCP/IP**.
+>  Returns NULL? Go to **SQL Server Configuration Manager** → **SQL Server Network Configuration** → Enable **TCP/IP**.
 
 ---
 
-## 💾 Step 2 — Backup Databases
+## ✔ Step 2 — Backup Databases
 
 Run on the **Principal Server**. Copy-only backups work too.
 
@@ -102,7 +107,7 @@ WITH FORMAT, INIT, NAME = N'Log Backup', STATS = 10;
 
 ---
 
-## 🔁 Step 3 — Restore on Mirror Server
+## ✔ Step 3 — Restore on Mirror Server
 
 Restore on the **Mirror Server** with `NORECOVERY` — the database must stay in **Restoring** state.
 
@@ -118,11 +123,11 @@ FROM DISK = N'C:\Backups\YourDatabaseName_LOG.bak'
 WITH NORECOVERY, STATS = 10;
 ```
 
-> ✅ The mirror database will show as **"Restoring..."** in SSMS — this is correct!
+> ✔ The mirror database will show as **"Restoring..."** in SSMS — this is correct!
 
 ---
 
-## ⚙️ Step 4 — Configure Mirroring
+## Step 4 — Configure Mirroring
 
 ### Via SSMS GUI
 
@@ -133,7 +138,7 @@ WITH NORECOVERY, STATS = 10;
 
 ```
 [Next] → Include Witness?
-         ├── YES → Automatic Failover ✅
+         ├── YES → Automatic Failover ✔
          └── NO  → Manual Failover
 
 → Select Principal Server (auto-filled)
@@ -144,7 +149,7 @@ WITH NORECOVERY, STATS = 10;
 
 ### Via T-SQL
 
-> ⚠️ Run on **Mirror FIRST**, then Principal.
+> Run on **Mirror FIRST**, then Principal.
 
 ```sql
 -- On MIRROR first:
@@ -158,22 +163,22 @@ SET PARTNER = 'TCP://10.0.0.214:5023';
 
 ---
 
-## 📊 Step 5 — Health Status
+## Step 5 — Health Status
 
-### ✅ Success State
+### ✔ Success State
 
 ```
-Principal Server:  YourDB (Principal, Synchronized) ✅
-Mirror Server:     YourDB (Mirror, Synchronized / Restoring) ✅
+Principal Server:  YourDB (Principal, Synchronized) ✔
+Mirror Server:     YourDB (Mirror, Synchronized / Restoring) ✔
 ```
 
 ### Status Reference
 
 | Status | Meaning |
 |--------|---------|
-| `Principal, Synchronized` | ✅ Live and in sync |
-| `Mirror, Synchronized / Restoring` | ✅ Receiving and applying logs |
-| `Disconnected` | ❌ Network or service issue |
+| `Principal, Synchronized` | ✔ Live and in sync |
+| `Mirror, Synchronized / Restoring` | ✔ Receiving and applying logs |
+| `Disconnected` | ✗ Network or service issue |
 | `Suspended` | ⚠️ Mirroring paused manually or due to error |
 
 ---
@@ -185,7 +190,7 @@ Data waiting on the principal to be sent to the mirror.
 
 | Range | Status |
 |-------|--------|
-| `0 – 100 MB` | ✅ Healthy |
+| `0 – 100 MB` | ✔ Healthy |
 | `Growing GBs` | ⚠️ Log cannot truncate — **disk space risk!** |
 
 > If unchecked, the log file can fill the drive and **stop all database operations**.
@@ -197,10 +202,10 @@ Data already transmitted over the network.
 
 | Range | Status |
 |-------|--------|
-| `0 – 200 MB` | ✅ Healthy |
+| `0 – 200 MB` | ✔ Healthy |
 | `200 – 500 MB` | ⚡ Acceptable under peak load |
 | `500 MB – 2 GB` (stable) | ⚠️ Network slowdown warning |
-| `5 GB+` (growing) | ❌ Network bottleneck or mirror lag |
+| `5 GB+` (growing) | ✗ Network bottleneck or mirror lag |
 
 ---
 
@@ -209,8 +214,8 @@ Data received by mirror but not yet applied.
 
 | Range | Status |
 |-------|--------|
-| `0 – 200 MB` | ✅ Healthy |
-| `Growing GBs` | ❌ Mirror CPU/disk bottleneck |
+| `0 – 200 MB` | ✔ Healthy |
+| `Growing GBs` | ✗ Mirror CPU/disk bottleneck |
 
 ---
 
@@ -219,8 +224,8 @@ How far the mirror is lagging behind the principal.
 
 | Range | Status |
 |-------|--------|
-| `0 – 1 second` | ✅ Healthy (sync mode) |
-| `Increasing` | ❌ Mirror falling behind — failover risk |
+| `0 – 1 second` | ✔ Healthy (sync mode) |
+| `Increasing` | ✗ Mirror falling behind — failover risk |
 
 ---
 
@@ -320,7 +325,7 @@ CREATE ENDPOINT Mirroring
 
 ---
 
-## 📌 Useful Commands
+## Useful Commands
 
 ### Read Error Logs
 
@@ -380,7 +385,3 @@ Connection handshake failed. There is no compatible encryption algorithm. State 
 
 ### You have successfully configured SQL Server Database Mirroring!
 
-![SQL Server](https://img.shields.io/badge/SQL%20Server-Mirroring%20Configured-CC2927?style=flat-square&logo=microsoftsqlserver)
-![Status](https://img.shields.io/badge/Mirror-SYNCHRONIZED-00C853?style=flat-square)
-
-</div>
