@@ -51,9 +51,9 @@
 
 | Server | Role | Required |
 |--------|------|----------|
-| Principal Server | Primary active database | ✔ Required |
-| Mirror Server | Standby replica | ✔ Required |
-| Witness Server | Arbitrator for automatic failover | ⚡ Optional |
+| Principal Server | Primary active database |  Required |
+| Mirror Server | Standby replica |  Required |
+| Witness Server | Arbitrator for automatic failover |  Optional |
 
 >  Configuration is easiest when all servers are in the **same domain**.
 
@@ -81,7 +81,7 @@ SELECT * FROM sys.dm_tcp_listener_states;
 
 ---
 
-## ✔ Step 2 — Backup Databases
+##  Step 2 — Backup Databases
 
 Run on the **Principal Server**. Copy-only backups work too.
 
@@ -103,7 +103,7 @@ WITH FORMAT, INIT, NAME = N'Log Backup', STATS = 10;
 
 ---
 
-## ✔ Step 3 — Restore on Mirror Server
+## Step 3 — Restore on Mirror Server
 
 Restore on the **Mirror Server** with `NORECOVERY` — the database must stay in **Restoring** state.
 
@@ -119,7 +119,7 @@ FROM DISK = N'C:\Backups\YourDatabaseName_LOG.bak'
 WITH NORECOVERY, STATS = 10;
 ```
 
-> ✔ The mirror database will show as **"Restoring..."** in SSMS — this is correct!
+ The mirror database will show as **"Restoring..."** in SSMS — this is correct!
 
 ---
 
@@ -134,7 +134,7 @@ WITH NORECOVERY, STATS = 10;
 
 ```
 [Next] → Include Witness?
-         ├── YES → Automatic Failover ✔
+         ├── YES → Automatic Failover 
          └── NO  → Manual Failover
 
 → Select Principal Server (auto-filled)
@@ -164,16 +164,16 @@ SET PARTNER = 'TCP://10.0.0.214:5023';
 ### ✔ Success State
 
 ```
-Principal Server:  YourDB (Principal, Synchronized) ✔
-Mirror Server:     YourDB (Mirror, Synchronized / Restoring) ✔
+Principal Server:  YourDB (Principal, Synchronized) 
+Mirror Server:     YourDB (Mirror, Synchronized / Restoring) 
 ```
 
 ### Status Reference
 
 | Status | Meaning |
 |--------|---------|
-| `Principal, Synchronized` | ✔ Live and in sync |
-| `Mirror, Synchronized / Restoring` | ✔ Receiving and applying logs |
+| `Principal, Synchronized` |  Live and in sync |
+| `Mirror, Synchronized / Restoring` |  Receiving and applying logs |
 | `Disconnected` | ✗ Network or service issue |
 | `Suspended` | ⚠️ Mirroring paused manually or due to error |
 
@@ -186,8 +186,8 @@ Data waiting on the principal to be sent to the mirror.
 
 | Range | Status |
 |-------|--------|
-| `0 – 100 MB` | ✔ Healthy |
-| `Growing GBs` | ⚠️ Log cannot truncate — **disk space risk!** |
+| `0 – 100 MB` | Healthy |
+| `Growing GBs` | Log cannot truncate — **disk space risk!** |
 
 > If unchecked, the log file can fill the drive and **stop all database operations**.
 
@@ -198,9 +198,9 @@ Data already transmitted over the network.
 
 | Range | Status |
 |-------|--------|
-| `0 – 200 MB` | ✔ Healthy |
-| `200 – 500 MB` | ⚡ Acceptable under peak load |
-| `500 MB – 2 GB` (stable) | ⚠️ Network slowdown warning |
+| `0 – 200 MB` |  Healthy |
+| `200 – 500 MB` |  Acceptable under peak load |
+| `500 MB – 2 GB` (stable) | Network slowdown warning |
 | `5 GB+` (growing) | ✗ Network bottleneck or mirror lag |
 
 ---
@@ -220,12 +220,12 @@ How far the mirror is lagging behind the principal.
 
 | Range | Status |
 |-------|--------|
-| `0 – 1 second` | ✔ Healthy (sync mode) |
-| `Increasing` | ✗ Mirror falling behind — failover risk |
+| `0 – 1 second` | Healthy (sync mode) |
+| `Increasing` |  Mirror falling behind — failover risk |
 
 ---
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Common Problems & Fixes
 
@@ -370,7 +370,7 @@ Connection handshake failed. There is no compatible encryption algorithm. State 
          │
 6. Configure ────────► Security Wizard in SSMS
          │
-7. Verify ───────────► Principal, Synchronized ✔ 
+7. Verify ───────────► Principal, Synchronized 
 ```
 
 ---
