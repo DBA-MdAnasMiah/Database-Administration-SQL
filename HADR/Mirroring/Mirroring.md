@@ -5,10 +5,6 @@
 
 # SQL Server Database Mirroring Setup Guide
 
-[![SQL Server](https://img.shields.io/badge/SQL%20Server-2019%2B-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)](https://www.microsoft.com/en-us/sql-server)
-[![Status](https://img.shields.io/badge/Status-SYNCHRONIZED-00C853?style=for-the-badge&logo=checkmarx&logoColor=white)](#health-status)
-[![Protocol](https://img.shields.io/badge/Protocol-TCP%2FIP-0078D4?style=for-the-badge&logo=cisco&logoColor=white)](#prerequisites)
-[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](#)
 
 > Step-by-step guide to configuring SQL Server Database Mirroring with troubleshooting, endpoint setup, and health monitoring.
 
