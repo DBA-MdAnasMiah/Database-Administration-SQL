@@ -149,12 +149,12 @@ WITH NORECOVERY, STATS = 10;
 
 ```sql
 -- On MIRROR first:
-ALTER DATABASE [YourDatabaseName]
-SET PARTNER = 'TCP://10.0.0.214:5022';
+ALTER DATABASE [YourDatabaseName]  
+SET PARTNER = 'TCP://10.0.0.214:5022'; -- Your principal IP or device name goes here.
 
 -- On PRINCIPAL second:
 ALTER DATABASE [YourDatabaseName]
-SET PARTNER = 'TCP://10.0.0.214:5023';
+SET PARTNER = 'TCP://10.0.0.214:5023'; Your mirror IP or device name goes here.
 ```
 
 ---
