@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?size=22&duration=4000&color=00C7B7&center=true&vCenter=true&width=650&lines=SQL+Server+Installation+%26+Backup;DBA+Reference+Guide" />
+  <img src="https://readme-typing-svg.herokuapp.com?size=22&duration=4000&color=00C7B7&center=true&vCenter=true&width=650&lines=SQL+Server+Installation;DBA+Reference+Guide" />
 </p>
 
 ---
 
-# 🗄️ SQL Server — Installation & Backup Guide
+# 🗄️ SQL Server — Installation Guide
 
-A complete DBA reference covering pre-installation, installation configuration, post-installation tuning, and backup strategies.
+A complete DBA reference covering pre-installation, installation configuration, and post-installation tuning.
 
 ---
 
@@ -23,13 +23,6 @@ A complete DBA reference covering pre-installation, installation configuration, 
   - [Cost Threshold for Parallelism](#cost-threshold-for-parallelism)
   - [Max Memory](#max-memory)
 - [Installation Checklist](#-installation-checklist)
-- [Backup](#backup)
-  - [Full Backup](#full-backup)
-  - [Transaction Log Backup](#transaction-log-backup)
-  - [Differential Backup](#differential-backup)
-  - [Script All Databases Full Backup](#script-all-databases-full-backup)
-  - [Check Copy-Only Status](#check-copy-only-status)
-  - [Check Compression Status](#check-compression-status)
 
 ---
 
@@ -272,150 +265,6 @@ WHERE name IN ('max server memory (MB)', 'min server memory (MB)');
 
 ---
 
-## Backup
-
-### Full Backup
-
-The **primary** backup — required for any restore operation.
-
-```sql
-BACKUP DATABASE [your-db] 
-TO DISK = N'D:\SQL-backup\your-db-backup-10-25-2025.bak' 
-WITH NOFORMAT, NOINIT, NAME = N'your-db-Full Database Backup', SKIP, STATS = 10, COMPRESSION;
-```
-
-| Option | Description |
-|--------|-------------|
-| `NOFORMAT` | Does not delete existing backups in the destination |
-| `NOINIT` | Prevents overwriting old backups in the file |
-| `NAME` | Metadata label saved in SQL Server to identify this backup |
-| `SKIP` | Ignores certain safety checks; allows backup even if file was created for a different database |
-| `STATS = 10` | Shows progress in 10% increments |
-| `COMPRESSION` | Compresses the backup file to save disk space |
-
----
-
-### Transaction Log Backup
-
-**Incremental backup** — stores all changes since the last backup. Requires a full backup first.
-
-```sql
-BACKUP LOG [your-db] 
-TO DISK = N'D:\SQL-backup\your-db-11-25-2025.trn' 
-WITH STATS = 10, COMPRESSION;
-```
-
-> - Only valid if a full backup exists
-> - Essential for **point-in-time recovery**
-
----
-
-### Differential Backup
-
-Captures **all changes since the last full backup** — reduces restore time vs. replaying many transaction logs.
-
-```sql
-BACKUP DATABASE [your-db] 
-TO DISK = N'D:\SQL-backup\your-db-diff-2025-10-25.bak' 
-WITH DIFFERENTIAL, STATS = 10, COMPRESSION;
-```
-
-> Requires a full backup to restore.
-
----
-
-### Script All Databases Full Backup
-
-Generates backup statements for all user databases (excludes 4 system databases).
-
-```sql
-SELECT 
-  'BACKUP DATABASE [' + name + '] TO DISK = ''D:\SQL-backup\' + name + '.bak'' WITH STATS = 15, COMPRESSION;'
-FROM sys.databases 
-WHERE database_id > 4;
-```
-
-**With date-stamped filenames:**
-
-```sql
-SELECT
-  'BACKUP DATABASE [' + name + '] TO DISK = N''B:\Backups\' + name + '_FULL_' + FORMAT(GETDATE(), 'MM_dd_yyyy') + '.bak''
-WITH COMPRESSION, STATS = 10'
-FROM sys.databases
-WHERE database_id > 4;
-```
-
----
-
-### Check Copy-Only Status
-
-Shows whether the last backup used the `COPY_ONLY` option.
-
-```sql
-SELECT TOP 1
-    bs.database_name,
-    bs.backup_start_date,
-    bs.backup_finish_date,
-    bs.type                  AS backup_type,   -- D=Full, I=Diff, L=Log
-    bs.is_copy_only,                            -- 1=COPY_ONLY, 0=Normal
-    CASE 
-        WHEN bs.is_copy_only = 1 THEN 'COPY_ONLY Backup'
-        ELSE 'Normal Backup'
-    END AS CopyOnlyStatus,
-    bmf.physical_device_name AS BackupFile
-FROM msdb.dbo.backupset bs
-JOIN msdb.dbo.backupmediafamily bmf
-    ON bs.media_set_id = bmf.media_set_id
-WHERE bs.database_name = 'YourDatabaseName'
-ORDER BY bs.backup_finish_date DESC;
-```
-
----
-
-### Check Compression Status
-
-Shows whether the last backup was compressed.
-
-```sql
-SELECT
-    bs.database_name,
-    bs.backup_finish_date,
-    bs.backup_size,
-    bs.compressed_backup_size,
-    CASE
-        WHEN bs.compressed_backup_size < bs.backup_size THEN 'Compressed'
-        ELSE 'Not Compressed'
-    END AS CompressionStatus,
-    bmf.physical_device_name
-FROM msdb.dbo.backupset bs
-JOIN msdb.dbo.backupmediafamily bmf
-    ON bs.media_set_id = bmf.media_set_id
-ORDER BY bs.backup_finish_date DESC;
-```
-
----
-
-## 📊 Backup Summary
-
-| Type | Captures | Requires | Best For |
-|------|----------|----------|----------|
-| **Full** | Entire database | Nothing | Base of all restores |
-| **Transaction Log** | Changes since last backup | Full backup | Point-in-time recovery |
-| **Differential** | All changes since last full | Full backup | Faster restores than replaying many logs |
-
-> 💡 **Always test your backups and restores** to verify reliability before you need them in production.
-
----
-
-## 🛠️ SIMPLE/EASY Backup Software
-
-A custom PowerShell backup tool built to make backups quick and easy:
-
-- **Download**: [sql_connect-v5.ps1](https://github.com/DBA-MdAnasMiah/Database-Administration-SQL/blob/main/Backup/MySoftwares/sql_connect-v5.ps1)
-
----
-
 ## 📄 Google Drive Notes
 
 - [Installation Notes — Google Doc](https://docs.google.com/document/d/12V21kO1DB0nqdWZR8wPLK0ArqkmN-9VN9MRcvQSSK5w/edit?tab=t.0)
-- [Backup Notes — Google Doc](https://docs.google.com/document/d/11Hq9WW8hcnbiI5aux144dF5ZbOWwO6shx2ptFRVTE0g/edit?tab=t.0)
